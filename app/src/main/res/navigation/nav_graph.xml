@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="eu.mcomputing.mobv.diplomovapraca.ui.auth.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_authenticationFragment"
+            app:destination="@id/authenticationFragment" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_trainingCommonFragment"
+            app:destination="@id/trainingCommonFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_trainingPersonalFragment"
+            app:destination="@id/trainingPersonalFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="eu.mcomputing.mobv.diplomovapraca.ui.auth.SignupFragment"
+        android:label="Signup"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_additionalSignupInfoFragment"
+            app:destination="@id/additionalSignupInfoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/additionalSignupInfoFragment"
+        android:name="eu.mcomputing.mobv.diplomovapraca.ui.auth.AdditionalSignupInfoFragment"
+        android:label="Additional Info"
+        tools:layout="@layout/fragment_additional_signup_info">
+        <action
+            android:id="@+id/action_additionalSignupInfoFragment_to_trainingCommonFragment"
+            app:destination="@id/trainingCommonFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainingCommonFragment"
+        android:name="eu.mcomputing.mobv.diplomovapraca.ui.training.TrainingCommonFragment"
+        android:label="Training – Common Sentence"
+        tools:layout="@layout/fragment_training_common">
+        <action
+            android:id="@+id/action_trainingCommonFragment_to_trainingPersonalFragment"
+            app:destination="@id/trainingPersonalFragment"
+            app:popUpTo="@id/trainingCommonFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainingPersonalFragment"
+        android:name="eu.mcomputing.mobv.diplomovapraca.ui.training.TrainingPersonalFragment"
+        android:label="Training – Personal Sentence"
+        tools:layout="@layout/fragment_training_personal">
+        <action
+            android:id="@+id/action_trainingPersonalFragment_to_authenticationFragment"
+            app:destination="@id/authenticationFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/authenticationFragment"
+        android:name="eu.mcomputing.mobv.diplomovapraca.ui.verification.AuthenticationFragment"
+        android:label="Authenticate"
+        tools:layout="@layout/fragment_authentication" />
+
+</navigation>

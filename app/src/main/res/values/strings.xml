@@ -1,3 +1,67 @@
 <resources>
     <string name="app_name">DiplomovaPraca</string>
+
+    <!-- Login -->
+    <string name="login_title">Login</string>
+    <string name="login_label_username">Username:</string>
+    <string name="login_hint_username">Enter your username</string>
+    <string name="login_label_password">Password:</string>
+    <string name="login_hint_password">Enter your password</string>
+    <string name="login_text_forgot_password">Forgot your password?</string>
+    <string name="login_text_register">Don\'t have an account? Sign up</string>
+    <string name="login_button_submit">Log in</string>
+
+    <!-- Signup -->
+    <string name="signup_title">Sign Up</string>
+    <string name="login_label_email">Email:</string>
+    <string name="login_hint_email">Enter your email</string>
+    <string name="signup_label_password">Password:</string>
+    <string name="signup_hint_password">Enter your password</string>
+    <string name="signup_label_password_confirm">Confirm password:</string>
+    <string name="signup_hint_password_confirm">Re-enter your password</string>
+    <string name="signup_text_login">Already have an account? Log in</string>
+    <string name="signup_button_register">Register</string>
+    <string name="signup_label_email">Email:</string>
+    <string name="signup_hint_email">Enter your email</string>
+
+    <!-- Additional info -->
+    <string name="additional_info_title">Additional Information</string>
+    <string name="additional_info_label_age">Age</string>
+    <string name="additional_info_hint_age">Enter your age</string>
+    <string name="additional_info_label_gender">Gender</string>
+    <string name="additional_info_gender_male">Male</string>
+    <string name="additional_info_gender_female">Female</string>
+    <string name="additional_info_label_hand">Dominant hand</string>
+    <string name="additional_info_hand_right">Right hand</string>
+    <string name="additional_info_hand_left">Left hand</string>
+    <string name="additional_info_button_confirm">Confirm</string>
+
+    <!-- Training: Common Sentence -->
+    <string name="training_common_title">Training - Common Sentence</string>
+    <string name="training_common_sentence_default">Behavioral biometrics improve digital security.</string>
+    <string name="training_hint_repeat_common">Type the sentence above...</string>
+    <string name="training_progress_prefix">Progress:</string>
+    <string name="training_progress_format">Progress: %1$d / %2$d</string>
+    <string name="training_button_continue">Continue to Personal Text</string>
+
+    <!-- Training: Personal Sentence – Selection -->
+    <string name="training_personal_title">Training - Personal Sentence</string>
+    <string name="training_personal_title_select">Choose your personal sentence</string>
+    <string name="training_personal_hint_input">Type your sentence here...</string>
+    <string name="training_personal_button_set">Set my sentence</string>
+
+    <!-- Training: Personal Sentence – Repetition -->
+    <string name="training_personal_hint_repeat">Repeat your sentence...</string>
+    <string name="training_button_next">Continue</string>
+
+    <!-- Training: Toast messages -->
+    <string name="training_toast_empty_sentence">Please enter a sentence.</string>
+    <string name="training_toast_attempt_saved">Attempt %1$d / %2$d saved</string>
+
+    <!-- Authentication screen -->
+    <string name="auth_title">Authenticate</string>
+    <string name="auth_hint">Type the sentence...</string>
+    <string name="auth_button">Authenticate</string>
+    <string name="auth_ready">Ready to authenticate</string>
+
 </resources>
