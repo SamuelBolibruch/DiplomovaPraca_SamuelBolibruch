@@ -25,7 +25,7 @@ class TrainingCommonViewModel(
         get() = getApplication<Application>().applicationContext
 
     val attemptCount = MutableLiveData(0)
-    val requiredAttempts = 1
+    val requiredAttempts = 15
 
     private val _state = MutableLiveData<TrainingCommonState>(TrainingCommonState.Idle)
     val state: LiveData<TrainingCommonState> get() = _state

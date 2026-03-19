@@ -23,7 +23,8 @@ class FileRepository(private val storage: FirebaseStorage, private val db: Fireb
         uid: String,
         fileType: String,
         filePurpose: String,
-        batchId: String // Unikátne ID pre celú dávku (napr. timestamp)
+        batchId: String, // Unikátne ID pre celú dávku (napr. timestamp)
+        sentenceType: String? = null
     ): Result<Unit> {
 
         if (uid.isBlank() || batchId.isBlank() || !localFile.exists()) {
@@ -33,7 +34,11 @@ class FileRepository(private val storage: FirebaseStorage, private val db: Fireb
         return try {
             // 1. Definovanie UNIKÁTNEJ cesty v Storage
             // Path: csv_uploads/{UID}/{fileType}/{BATCH_ID}/{file_name.csv}
-            val remotePath = "$STORAGE_BASE_PATH/$uid/$fileType/$batchId/${localFile.name}"
+            val remotePath = if (fileType == "authentication" && !sentenceType.isNullOrBlank()) {
+                "$STORAGE_BASE_PATH/$uid/$fileType/$sentenceType/$batchId/${localFile.name}"
+            } else {
+                "$STORAGE_BASE_PATH/$uid/$fileType/$batchId/${localFile.name}"
+            }
             val storageRef = storage.reference.child(remotePath)
 
             // 2. Upload súboru
@@ -43,9 +48,10 @@ class FileRepository(private val storage: FirebaseStorage, private val db: Fireb
             val metadata = FileMetadata(
                 userId = uid,
                 fileName = localFile.name,
-                storagePath = remotePath, // Uložíme celú unikátnu cestu
+                storagePath = remotePath,
                 fileType = fileType,
-                filePurpose = filePurpose
+                filePurpose = filePurpose,
+                sentenceType = if (fileType == "authentication") sentenceType else null
             )
 
             // 4. Uloženie metadát do Firestore

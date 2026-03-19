@@ -15,6 +15,7 @@ import eu.mcomputing.mobv.diplomovapraca.userRepository
 import eu.mcomputing.mobv.diplomovapraca.utils.EditTextLogger
 import eu.mcomputing.mobv.diplomovapraca.utils.FileUtils
 import eu.mcomputing.mobv.diplomovapraca.utils.KeyboardLoggingHelper
+import androidx.core.content.ContextCompat
 
 class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
 
@@ -26,7 +27,7 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
             userRepository
         )
     }
-    private val commonSentence = "Pijem čaj a jem čerstvé ovocie každý deň."
+    private val commonSentence = "Dnes je vonku pekne, idem von so psom na dvor a budem tam asi hodinu, bude to fajn."
 
     private var keystrokeLogger: EditTextLogger? = null
     private var inputField: EditText? = null
@@ -40,6 +41,10 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
 
         val sentenceText = view.findViewById<TextView>(R.id.textSentence)
         inputField = view.findViewById<EditText>(R.id.editTextTyped)
+
+        val defaultTextColor = inputField?.currentTextColor ?: 0
+        val errorTextColor = ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
+
         val statusText = view.findViewById<TextView>(R.id.textProgress)
         val nextButton = view.findViewById<Button>(R.id.buttonNext)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
@@ -62,16 +67,20 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
         )
 
         inputField?.addTextChangedListener { s ->
-            if (s.toString().trim() == commonSentence) {
+            val typed = s?.toString() ?: ""
+
+            // ✅ prefix check (rovnaká dĺžka ako typed)
+            val expectedPrefix = commonSentence.take(typed.length)
+            val isPrefixOk = typed == expectedPrefix
+
+            // ✅ farba podľa chyby
+            inputField?.setTextColor(if (isPrefixOk) defaultTextColor else errorTextColor)
+
+            // pôvodná logika: posun kola iba pri presnej zhode celej vety
+            if (typed.trim() == commonSentence) {
 
                 val newCount = (viewModel.attemptCount.value ?: 0) + 1
                 viewModel.attemptCount.value = newCount
-
-                Toast.makeText(
-                    requireContext(),
-                    "Attempt $newCount/${viewModel.requiredAttempts} saved",
-                    Toast.LENGTH_SHORT
-                ).show()
 
                 if (newCount >= viewModel.requiredAttempts) {
                     inputField?.post {
@@ -84,12 +93,12 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
 
                         inputField?.let { keystrokeLogger?.detachFrom(it) }
                     }
-
                 } else {
                     inputField?.post {
                         inputField?.let { editText ->
                             keystrokeLogger?.detachFrom(editText)
                             editText.text?.clear()
+                            editText.setTextColor(defaultTextColor)
                             keystrokeLogger?.attachTo(editText)
                             keystrokeLogger?.setRoundId(newCount + 1)
                         }
@@ -103,7 +112,6 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
                 )
             }
         }
-
         nextButton.setOnClickListener {
             // ✅ OPRAVENÉ: Volanie funkcie s povinnými parametrami
             viewModel.sendTrainingData(

@@ -17,6 +17,7 @@ import eu.mcomputing.mobv.diplomovapraca.userRepository
 import eu.mcomputing.mobv.diplomovapraca.utils.EditTextLogger
 import eu.mcomputing.mobv.diplomovapraca.utils.FileUtils
 import eu.mcomputing.mobv.diplomovapraca.utils.KeyboardLoggingHelper
+import androidx.core.content.ContextCompat
 
 class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
 
@@ -29,10 +30,10 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
         )
     }
     private var attemptCount = 0
-    private val requiredAttempts = 1
+    private val requiredAttempts = 15
 
-    private val minCharacters = 40
-    private val minWords = 5
+    private val minCharacters = 75
+    private val minWords = 10
     private var userSentence: String = ""
 
     private var keystrokeLogger: EditTextLogger? = null
@@ -55,6 +56,10 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
         val textSentence = view.findViewById<TextView>(R.id.textPersonalSentence)
         val editRepeat = view.findViewById<EditText>(R.id.editTextRepeat)
         editRepeatField = editRepeat
+
+        val defaultTextColor = editRepeat.currentTextColor
+        val errorTextColor = ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
+
         val statusText = view.findViewById<TextView>(R.id.textProgress)
 
         val nextButton = view.findViewById<Button>(R.id.buttonNext)
@@ -146,36 +151,43 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
 
         // STEP 2: Train repetition
         editRepeat.addTextChangedListener { s ->
-            if (s.toString().trim() == userSentence) {
+
+            if (userSentence.isBlank()) {
+                editRepeat.setTextColor(defaultTextColor)
+                return@addTextChangedListener
+            }
+
+            val typed = s?.toString() ?: ""
+
+            // ✅ prefix check oproti userSentence
+            val expectedPrefix = userSentence.take(typed.length)
+            val isPrefixOk = typed == expectedPrefix
+
+            // ✅ farba podľa chyby
+            editRepeat.setTextColor(if (isPrefixOk) defaultTextColor else errorTextColor)
+
+            // pôvodná logika: posun kola iba pri presnej zhode celej vety
+            if (typed.trim() == userSentence) {
 
                 attemptCount++
 
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.training_toast_attempt_saved, attemptCount, requiredAttempts),
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                // Logika odpojenia/vymazania/pripojenia
                 editRepeat.post {
                     // 1. Odpojenie loggeru pred vymazaním
                     editRepeatField?.let { keystrokeLogger?.detachFrom(it) }
 
-                    // 2. Vymazanie textu
+                    // 2. Vymazanie textu + reset farby
                     editRepeat.text.clear()
+                    editRepeat.setTextColor(defaultTextColor)
 
                     if (attemptCount >= requiredAttempts) {
-                        // POSLEDNÉ KOLO: ZAKONČENIE TRÉNINGU
                         nextButton.isEnabled = true
 
                         editRepeat.isEnabled = false
                         editRepeat.isFocusable = false
                         editRepeat.isCursorVisible = false
                         editRepeat.keyListener = null
-
                         // Logger zostáva odpojený
                     } else {
-                        // OSTATNÉ KOLÁ: PRÍPRAVA NA ĎALŠIE
                         // 3. Opätovné pripojenie pre nové kolo
                         editRepeatField?.let { keystrokeLogger?.attachTo(it) }
 

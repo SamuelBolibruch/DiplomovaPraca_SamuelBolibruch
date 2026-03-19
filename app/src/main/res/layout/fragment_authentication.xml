@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="24dp">
 
-    <!-- WRAPPER ktorý vycentruje celý obsah -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/centerWrapper"
         android:layout_width="0dp"
@@ -16,7 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Nadpis -->
         <TextView
             android:id="@+id/textAuthTitle"
             android:layout_width="wrap_content"
@@ -28,40 +26,78 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Veta -->
-        <TextView
-            android:id="@+id/textAuthSentence"
+        <RadioGroup
+            android:id="@+id/radioGroupSentenceType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/textAuthTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Input -->
+            <RadioButton
+                android:id="@+id/radioGeneralSentence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Všeobecná veta"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioPersonalSentence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Osobná veta" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textAuthGeneral"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/radioGroupSentenceType"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/editTextAuth"/>
+
+        <TextView
+            android:id="@+id/textAuthSentence"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/radioGroupSentenceType"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/editTextAuth"/>
+
         <EditText
             android:id="@+id/editTextAuth"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/auth_hint"
             android:layout_marginTop="24dp"
+            android:hint="@string/auth_hint"
             android:inputType="text"
-            app:layout_constraintTop_toBottomOf="@id/textAuthSentence"
+            app:layout_constraintTop_toBottomOf="@id/textAuthGeneral"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Status -->
         <TextView
             android:id="@+id/textAuthStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
             android:layout_marginTop="12dp"
+            android:text=""
             app:layout_constraintTop_toBottomOf="@id/editTextAuth"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- 🔥 Button + ProgressBar -->
         <FrameLayout
             android:id="@+id/authButtonContainer"
             android:layout_width="0dp"
@@ -90,7 +126,6 @@
                 android:layout_gravity="center"
                 android:indeterminateTint="@android:color/white"
                 android:visibility="gone" />
-
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
