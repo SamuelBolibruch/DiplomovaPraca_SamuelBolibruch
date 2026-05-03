@@ -3,11 +3,13 @@ package eu.mcomputing.mobv.diplomovapraca.ui.verification
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eu.mcomputing.mobv.diplomovapraca.R
 import eu.mcomputing.mobv.diplomovapraca.authRepository
 import eu.mcomputing.mobv.diplomovapraca.behaBioAuthRepository
@@ -32,6 +34,7 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
     private var inputField: EditText? = null
     private var selectedSentence: String = ""
     private var isPersonalMode: Boolean = false
+    private var resultDialog: AlertDialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +47,6 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
         val personalSentenceText = view.findViewById<TextView>(R.id.textAuthSentence)
         val radioGroup = view.findViewById<RadioGroup>(R.id.radioGroupSentenceType)
         val radioGeneral = view.findViewById<RadioButton>(R.id.radioGeneralSentence)
-        val radioPersonal = view.findViewById<RadioButton>(R.id.radioPersonalSentence)
 
         inputField = view.findViewById(R.id.editTextAuth)
         val buttonSubmit = view.findViewById<Button>(R.id.buttonSubmitAuth)
@@ -57,6 +59,42 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
         val normalButtonText = getString(R.string.auth_button)
         val keystrokeFileName = "keystrokes_authentication.csv"
         val fileType = "authentication"
+
+        fun resetInputState() {
+            inputField?.setText("")
+            inputField?.setTextColor(defaultTextColor)
+            inputField?.isEnabled = true
+            buttonSubmit.isEnabled = false
+            statusText.text = ""
+
+            inputField?.let { editText ->
+                keystrokeLogger?.detachFrom(editText)
+                keystrokeLogger?.setRoundId(1)
+                keystrokeLogger?.attachTo(editText)
+            }
+        }
+
+        fun showAuthenticationResultDialog(titleResId: Int, message: String) {
+            resultDialog?.dismiss()
+
+            resultDialog = MaterialAlertDialogBuilder(requireContext())
+                .setTitle(titleResId)
+                .setMessage(message)
+                .setPositiveButton(R.string.auth_result_dialog_ok) { dialog, _ ->
+                    dialog.dismiss()
+                    viewModel.reset()
+                }
+                .setCancelable(false)
+                .create().also { dialog ->
+                    dialog.setOnDismissListener {
+                        if (resultDialog === dialog) {
+                            resultDialog = null
+                        }
+                    }
+                }
+
+            resultDialog?.show()
+        }
 
         generalSentenceText.text = viewModel.authSentence
         buttonSubmit.isEnabled = false
@@ -170,23 +208,15 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
 
                 is AuthenticationState.Success -> {
                     progressBar.isVisible = false
-                    buttonSubmit.isEnabled = true
+                    buttonSubmit.isEnabled = false
                     buttonSubmit.text = normalButtonText
                     buttonSubmit.alpha = 1.0f
 
-                    Toast.makeText(requireContext(), "Authentication successful!", Toast.LENGTH_SHORT).show()
-
-                    inputField?.setText("")
-                    inputField?.setTextColor(defaultTextColor)
-                    inputField?.isEnabled = true
-
-                    inputField?.let {
-                        keystrokeLogger?.detachFrom(it)
-                        keystrokeLogger?.setRoundId(1)
-                        keystrokeLogger?.attachTo(it)
-                    }
-
-                    viewModel.reset()
+                    resetInputState()
+                    showAuthenticationResultDialog(
+                        titleResId = R.string.auth_result_dialog_title_success,
+                        message = state.message
+                    )
                 }
 
                 is AuthenticationState.Error -> {
@@ -194,19 +224,11 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
                     buttonSubmit.text = normalButtonText
                     buttonSubmit.alpha = 1.0f
 
-                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
-
-                    inputField?.setText("")
-                    inputField?.setTextColor(defaultTextColor)
-                    inputField?.isEnabled = true
-                    buttonSubmit.isEnabled = false
-                    statusText.text = ""
-
-                    inputField?.let { editText ->
-                        keystrokeLogger?.detachFrom(editText)
-                        keystrokeLogger?.setRoundId(1)
-                        keystrokeLogger?.attachTo(editText)
-                    }
+                    resetInputState()
+                    showAuthenticationResultDialog(
+                        titleResId = R.string.auth_result_dialog_title_error,
+                        message = state.message
+                    )
                 }
             }
         }
@@ -214,6 +236,8 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        resultDialog?.dismiss()
+        resultDialog = null
         inputField?.let { keystrokeLogger?.detachFrom(it) }
         keystrokeLogger = null
         inputField = null

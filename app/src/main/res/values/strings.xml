@@ -59,5 +59,12 @@
     <string name="auth_hint">Napíšte vetu...</string>
     <string name="auth_button">Overiť</string>
     <string name="auth_ready">Pripravené na autentifikáciu</string>
+    <string name="auth_result_dialog_ok">OK</string>
+    <string name="auth_result_dialog_title_success">Autentifikácia úspešná</string>
+    <string name="auth_result_dialog_title_error">Autentifikácia neúspešná</string>
+    <string name="auth_result_message_success">Vaša identita bola úspešne overená.</string>
+    <string name="auth_result_message_rejected">Vašu identitu sa nepodarilo overiť. Skúste to prosím znova.</string>
+    <string name="auth_result_message_server_error">Počas overovania nastal problém so serverom. Skúste to prosím o chvíľu znova.</string>
+    <string name="auth_text_mismatch">Zadaný text sa nezhoduje s požadovanou vetou.</string>
 
 </resources>

@@ -3,13 +3,13 @@ package eu.mcomputing.mobv.diplomovapraca.ui.verification
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import eu.mcomputing.mobv.diplomovapraca.R
 import eu.mcomputing.mobv.diplomovapraca.data.Result
 import eu.mcomputing.mobv.diplomovapraca.data.repository.AuthRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.BehaBioAuthRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.FileRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.UserRepository
 import eu.mcomputing.mobv.diplomovapraca.utils.FileUtils
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AuthenticationViewModel(
@@ -42,7 +42,7 @@ class AuthenticationViewModel(
                 is Result.Success -> {
                     val sentence = result.data.personalSentence
 
-                    if (sentence.isNullOrBlank()) {
+                    if (sentence.isBlank()) {
                         _state.value = AuthenticationState.Error("Osobná veta nebola nájdená.")
                     } else {
                         _personalSentence.value = sentence
@@ -82,7 +82,7 @@ class AuthenticationViewModel(
 
         if (input != trimmedTarget) {
             Log.e(tag, "Input does not match target sentence")
-            _state.value = AuthenticationState.Error("Sentence does not match")
+            _state.value = AuthenticationState.Error(application.getString(R.string.auth_text_mismatch))
             return
         }
 
@@ -171,10 +171,14 @@ class AuthenticationViewModel(
 
                         if (decision == "ACCEPT") {
                             Log.d(tag, "Authentication accepted, setting Success state")
-                            _state.value = AuthenticationState.Success
+                            _state.value = AuthenticationState.Success(
+                                application.getString(R.string.auth_result_message_success)
+                            )
                         } else {
                             Log.e(tag, "Authentication rejected by API")
-                            _state.value = AuthenticationState.Error("Authentication rejected")
+                            _state.value = AuthenticationState.Error(
+                                application.getString(R.string.auth_result_message_rejected)
+                            )
                         }
                     }
 
@@ -182,7 +186,9 @@ class AuthenticationViewModel(
                         Log.e(tag, "Authentication API call failed", authApiResult.exception)
                         typedText.postValue("")
                         Log.d(tag, "typedText cleared after API error")
-                        throw authApiResult.exception
+                        _state.value = AuthenticationState.Error(
+                            application.getString(R.string.auth_result_message_server_error)
+                        )
                     }
                 }
 
@@ -206,6 +212,6 @@ class AuthenticationViewModel(
 sealed class AuthenticationState {
     object Idle : AuthenticationState()
     object Loading : AuthenticationState()
-    object Success : AuthenticationState()
+    data class Success(val message: String) : AuthenticationState()
     data class Error(val message: String) : AuthenticationState()
 }
