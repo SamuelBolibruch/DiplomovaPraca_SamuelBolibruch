@@ -47,6 +47,10 @@
 
     <string name="training_personal_hint_repeat">Zopakujte svoju vetu...</string>
     <string name="training_button_next">Pokračovať</string>
+    <string name="training_personal_uploading_status">Prebieha spracovanie údajov…</string>
+    <string name="training_common_uploading_status">Prebieha spracovanie údajov…</string>
+    <string name="training_personal_model_training_status">Modely sa aktuálne trénujú. Tento krok môže trvať niekoľko minút, prosím čakajte…</string>
+    <string name="training_personal_model_training_success">Modely boli úspešne dotrénované.</string>
 
     <string name="training_toast_empty_sentence">Prosím, zadajte vetu.</string>
     <string name="training_toast_attempt_saved">Pokus %1$d / %2$d uložený</string>

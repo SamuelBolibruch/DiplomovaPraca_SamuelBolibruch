@@ -13,7 +13,6 @@ import eu.mcomputing.mobv.diplomovapraca.authRepository
 import eu.mcomputing.mobv.diplomovapraca.fileRepository
 import eu.mcomputing.mobv.diplomovapraca.userRepository
 import eu.mcomputing.mobv.diplomovapraca.utils.EditTextLogger
-import eu.mcomputing.mobv.diplomovapraca.utils.FileUtils
 import eu.mcomputing.mobv.diplomovapraca.utils.KeyboardLoggingHelper
 import androidx.core.content.ContextCompat
 
@@ -53,6 +52,14 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
         val keystrokeFileName = "keystrokes_common.csv" // Názov súboru pre tento tréning
         val fileType = "common_training" // Typ tréningu pre metadáta
 
+        fun renderProgressStatus() {
+            statusText.text = getString(
+                R.string.training_progress_format,
+                viewModel.attemptCount.value ?: 0,
+                viewModel.requiredAttempts
+            )
+        }
+
         sentenceText.text = commonSentence
         nextButton.isEnabled = false
 
@@ -60,11 +67,7 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
         keystrokeLogger = EditTextLogger(context = requireContext(), userId = "1", roundId = initialRoundId, logFileName = keystrokeFileName)
         inputField?.let { keystrokeLogger?.attachTo(it) }
 
-        statusText.text = getString(
-            R.string.training_progress_format,
-            viewModel.attemptCount.value ?: 0,
-            viewModel.requiredAttempts
-        )
+        renderProgressStatus()
 
         inputField?.addTextChangedListener { s ->
             val typed = s?.toString() ?: ""
@@ -105,11 +108,7 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
                     }
                 }
 
-                statusText.text = getString(
-                    R.string.training_progress_format,
-                    newCount,
-                    viewModel.requiredAttempts
-                )
+                renderProgressStatus()
             }
         }
         nextButton.setOnClickListener {
@@ -128,6 +127,7 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
                     nextButton.isEnabled = viewModel.attemptCount.value == viewModel.requiredAttempts
                     nextButton.text = normalButtonText
                     nextButton.alpha = 1.0f
+                    renderProgressStatus()
                 }
 
                 is TrainingCommonState.Loading -> {
@@ -135,6 +135,7 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
                     nextButton.isEnabled = false
                     nextButton.text = ""
                     nextButton.alpha = 0.8f
+                    statusText.text = getString(R.string.training_common_uploading_status)
                 }
 
                 is TrainingCommonState.Success -> {
@@ -155,6 +156,7 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
                     nextButton.isEnabled = true
                     nextButton.text = normalButtonText
                     nextButton.alpha = 1.0f
+                    statusText.text = state.message
 
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }

@@ -193,11 +193,15 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
                     progressBar.isVisible = false
                     buttonSubmit.text = normalButtonText
                     buttonSubmit.alpha = 1.0f
-                    buttonSubmit.isEnabled = viewModel.typedText.value == selectedSentence && selectedSentence.isNotBlank()
 
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
 
+                    inputField?.setText("")
+                    inputField?.setTextColor(defaultTextColor)
                     inputField?.isEnabled = true
+                    buttonSubmit.isEnabled = false
+                    statusText.text = ""
+
                     inputField?.let { editText ->
                         keystrokeLogger?.detachFrom(editText)
                         keystrokeLogger?.setRoundId(1)

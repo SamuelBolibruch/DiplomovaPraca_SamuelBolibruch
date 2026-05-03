@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import eu.mcomputing.mobv.diplomovapraca.R
 import eu.mcomputing.mobv.diplomovapraca.authRepository
+import eu.mcomputing.mobv.diplomovapraca.behaBioAuthRepository
 import eu.mcomputing.mobv.diplomovapraca.fileRepository
 import eu.mcomputing.mobv.diplomovapraca.userRepository
 import eu.mcomputing.mobv.diplomovapraca.utils.EditTextLogger
@@ -26,7 +27,8 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
             requireActivity().application, // Odosielame Application Context
             authRepository,                // Odosielame Singleton AuthRepository
             fileRepository,                 // Odosielame Singleton FileRepository
-            userRepository
+            userRepository,
+            behaBioAuthRepository
         )
     }
     private var attemptCount = 0
@@ -66,6 +68,14 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         val normalButtonText = getString(R.string.training_button_next)
+
+        fun renderProgressStatus() {
+            statusText.text = getString(
+                R.string.training_progress_format,
+                attemptCount,
+                requiredAttempts
+            )
+        }
 
         // STEP 1: User chooses personal sentence
         btnSet.setOnClickListener {
@@ -116,11 +126,7 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
             attemptCount = 0
             nextButton.isEnabled = false
 
-            statusText.text = getString(
-                R.string.training_progress_format,
-                attemptCount,
-                requiredAttempts
-            )
+            renderProgressStatus()
 
             // INICIALIZÁCIA A PRIPOJENIE LOGGERU
             // ⬇️ ÚPRAVA: Použijeme reálne UID z authRepository namiesto "1"
@@ -196,11 +202,7 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
                     }
                 }
 
-                statusText.text = getString(
-                    R.string.training_progress_format,
-                    attemptCount,
-                    requiredAttempts
-                )
+                renderProgressStatus()
             }
         }
 
@@ -218,13 +220,23 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
                     nextButton.isEnabled = attemptCount >= requiredAttempts
                     nextButton.text = normalButtonText
                     nextButton.alpha = 1f
+                    renderProgressStatus()
                 }
 
-                is TrainingPersonalState.Loading -> {
+                is TrainingPersonalState.Uploading -> {
                     progressBar.isVisible = true
                     nextButton.isEnabled = false
                     nextButton.text = ""
                     nextButton.alpha = 0.8f
+                    statusText.text = getString(R.string.training_personal_uploading_status)
+                }
+
+                is TrainingPersonalState.TrainingModels -> {
+                    progressBar.isVisible = true
+                    nextButton.isEnabled = false
+                    nextButton.text = ""
+                    nextButton.alpha = 0.8f
+                    statusText.text = getString(R.string.training_personal_model_training_status)
                 }
 
                 is TrainingPersonalState.Success -> {
@@ -232,6 +244,7 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
                     nextButton.isEnabled = true
                     nextButton.text = normalButtonText
                     nextButton.alpha = 1f
+                    statusText.text = getString(R.string.training_personal_model_training_success)
 
                     FileUtils.clearSensorLogs(requireContext())
 
@@ -247,6 +260,7 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
                     nextButton.isEnabled = true
                     nextButton.text = normalButtonText
                     nextButton.alpha = 1f
+                    statusText.text = state.message
 
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }

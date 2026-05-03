@@ -7,11 +7,16 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/copilot*.xml
+/.idea/studiobot.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/deviceManager.xml
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
+/.kotlin/errors/
 local.properties
 
 app/google-services.json
