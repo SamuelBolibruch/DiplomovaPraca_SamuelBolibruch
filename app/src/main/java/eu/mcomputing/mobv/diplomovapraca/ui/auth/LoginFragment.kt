@@ -65,7 +65,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 }
 
                 is LoginState.NavHome -> {
-                    Toast.makeText(requireContext(), "Prihlásenie úspešné!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.login_toast_success), Toast.LENGTH_SHORT).show()
                     findNavController().navigate(
                         R.id.action_loginFragment_to_authenticationFragment
                     )
@@ -73,7 +73,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 }
 
                 is LoginState.NavCommonTraining -> {
-                    Toast.makeText(requireContext(), "Prosím, dokončite spoločný tréning.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.login_toast_finish_common_training), Toast.LENGTH_SHORT).show()
                     findNavController().navigate(
                         R.id.action_loginFragment_to_trainingCommonFragment
                     )
@@ -81,7 +81,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 }
 
                 is LoginState.NavPersonalTraining -> {
-                    Toast.makeText(requireContext(), "Dokončite osobný tréning.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.login_toast_finish_personal_training), Toast.LENGTH_SHORT).show()
                     findNavController().navigate(
                         R.id.action_loginFragment_to_trainingPersonalFragment
                     )

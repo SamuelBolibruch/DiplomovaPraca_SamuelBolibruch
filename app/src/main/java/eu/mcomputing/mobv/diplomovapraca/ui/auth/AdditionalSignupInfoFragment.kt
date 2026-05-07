@@ -68,7 +68,7 @@ class AdditionalSignupInfoFragment : Fragment(R.layout.fragment_additional_signu
                     confirmButton.isEnabled = true
                     confirmButton.text = getString(R.string.additional_info_button_confirm)
                     confirmButton.alpha = 1.0f
-                    Toast.makeText(requireContext(), "Signup completed successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.signup_toast_success), Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_additionalSignupInfoFragment_to_trainingCommonFragment)
                     viewModel.clear()
                 }

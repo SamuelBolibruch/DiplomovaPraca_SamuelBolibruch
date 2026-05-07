@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="eu.mcomputing.mobv.diplomovapraca.ui.auth.LoginFragment"
-        android:label="Login"
+        android:label="@string/login_title"
         tools:layout="@layout/fragment_login">
 
         <action
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="eu.mcomputing.mobv.diplomovapraca.ui.auth.SignupFragment"
-        android:label="Signup"
+        android:label="@string/signup_title"
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
@@ -49,7 +49,7 @@
     <fragment
         android:id="@+id/additionalSignupInfoFragment"
         android:name="eu.mcomputing.mobv.diplomovapraca.ui.auth.AdditionalSignupInfoFragment"
-        android:label="Additional Info"
+        android:label="@string/additional_info_title"
         tools:layout="@layout/fragment_additional_signup_info">
         <action
             android:id="@+id/action_additionalSignupInfoFragment_to_trainingCommonFragment"
@@ -61,7 +61,7 @@
     <fragment
         android:id="@+id/trainingCommonFragment"
         android:name="eu.mcomputing.mobv.diplomovapraca.ui.training.TrainingCommonFragment"
-        android:label="Training – Common Sentence"
+        android:label="@string/training_common_title"
         tools:layout="@layout/fragment_training_common">
         <action
             android:id="@+id/action_trainingCommonFragment_to_trainingPersonalFragment"
@@ -73,7 +73,7 @@
     <fragment
         android:id="@+id/trainingPersonalFragment"
         android:name="eu.mcomputing.mobv.diplomovapraca.ui.training.TrainingPersonalFragment"
-        android:label="Training – Personal Sentence"
+        android:label="@string/training_personal_title"
         tools:layout="@layout/fragment_training_personal">
         <action
             android:id="@+id/action_trainingPersonalFragment_to_authenticationFragment"
@@ -85,7 +85,7 @@
     <fragment
         android:id="@+id/authenticationFragment"
         android:name="eu.mcomputing.mobv.diplomovapraca.ui.verification.AuthenticationFragment"
-        android:label="Authenticate"
+        android:label="@string/auth_title"
         tools:layout="@layout/fragment_authentication" />
 
 </navigation>

@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import eu.mcomputing.mobv.diplomovapraca.R
 import eu.mcomputing.mobv.diplomovapraca.data.Result
 import eu.mcomputing.mobv.diplomovapraca.data.repository.AuthRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.BehaBioAuthRepository
@@ -65,7 +66,7 @@ class TrainingPersonalViewModel(
                 }
                 is Result.Error -> {
                     Log.e("DATABASE", "Chyba pri ukladaní vety", result.exception)
-                    _state.postValue(TrainingPersonalState.Error("Nepodarilo sa uložiť vetu do profilu."))
+                    _state.postValue(TrainingPersonalState.Error(getApplication<Application>().getString(R.string.training_personal_error_sentence_save)))
                 }
             }
         }
@@ -80,7 +81,7 @@ class TrainingPersonalViewModel(
         val uid = authRepository.getCurrentUser()?.uid
         if (uid == null) {
             _state.value =
-                TrainingPersonalState.Error("Používateľ nie je prihlásený. Prosím, prihláste sa znova.")
+                TrainingPersonalState.Error(getApplication<Application>().getString(R.string.training_error_not_logged_in))
             return
         }
 
@@ -107,7 +108,7 @@ class TrainingPersonalViewModel(
                         is Result.Error -> {
                             Log.e("MODEL_TRAINING", "Chyba počas trénovania modelov.", registerResult.exception)
                             _state.value = TrainingPersonalState.Error(
-                                "Trénovanie modelov zlyhalo. Skúste to prosím znova."
+                                getApplication<Application>().getString(R.string.training_personal_error_model_training_failed)
                             )
                             return@launch
                         }
@@ -128,7 +129,7 @@ class TrainingPersonalViewModel(
                     is Result.Error -> {
                         Log.e("FIREBASE_UPDATE", "Chyba pri aktualizácii statusu tréningu.", updateResult.exception)
                         _state.value = TrainingPersonalState.Error(
-                            "Modely sú dotrénované, ale nepodarilo sa uložiť stav používateľa. Skúste to znova."
+                            getApplication<Application>().getString(R.string.training_personal_error_state_save_failed)
                         )
                     }
                 }
@@ -136,7 +137,7 @@ class TrainingPersonalViewModel(
             } catch (e: Exception) {
                 Log.e("UPLOAD_ERROR", "Chyba pri dokončovaní osobného tréningu.", e)
                 _state.value = TrainingPersonalState.Error(
-                    e.message ?: "Počas dokončovania osobného tréningu nastala chyba."
+                    e.message ?: getApplication<Application>().getString(R.string.training_personal_error_finish_failed)
                 )
             }
         }

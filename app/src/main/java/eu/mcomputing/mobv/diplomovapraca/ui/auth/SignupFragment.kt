@@ -16,7 +16,7 @@ import eu.mcomputing.mobv.diplomovapraca.userRepository
 class SignupFragment : Fragment(R.layout.fragment_signup) {
 
     private val viewModel: SignupViewModel by activityViewModels {
-        SignupViewModelFactory(authRepository, userRepository)
+        SignupViewModelFactory(requireActivity().application, authRepository, userRepository)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

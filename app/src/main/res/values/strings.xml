@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DiplomovaPraca</string>
+    <string name="app_name">Diplomová práca</string>
 
     <string name="login_title">Prihlásenie</string>
     <string name="login_label_username">Používateľské meno:</string>
@@ -34,29 +34,40 @@
     <string name="additional_info_button_confirm">Potvrdiť</string>
 
     <string name="training_common_title">Tréning - Spoločná veta</string>
-    <string name="training_common_sentence_default">Behaviorálna biometria zvyšuje digitálnu bezpečnosť.</string>
-    <string name="training_hint_repeat_common">Napíšte vetu uvedenú vyššie...</string>
+    <string name="training_common_sentence_default">Dnes je vonku pekne, idem von so psom na dvor a budem tam asi hodinu, bude to fajn.</string>
+    <string name="training_hint_repeat_common">Napíšte vetu uvedenú vyššie…</string>
     <string name="training_progress_prefix">Pokrok:</string>
     <string name="training_progress_format">Pokrok: %1$d / %2$d</string>
     <string name="training_button_continue">Pokračovať v trénovaní</string>
+    <string name="training_error_not_logged_in">Používateľ nie je prihlásený. Prosím, prihláste sa znova.</string>
+    <string name="training_error_status_update">Nahrávanie prebehlo úspešne, ale nepodarilo sa aktualizovať stav používateľa.</string>
+    <string name="training_error_upload_failed">Nahrávanie dát zlyhalo. Skúste to prosím znova.</string>
 
     <string name="training_personal_title">Tréning - Osobná veta</string>
     <string name="training_personal_title_select">Vyberte si svoju osobnú vetu</string>
-    <string name="training_personal_hint_input">Sem napíšte svoju vetu...</string>
+    <string name="training_personal_hint_input">Sem napíšte svoju vetu…</string>
     <string name="training_personal_button_set">Nastaviť moju vetu</string>
 
-    <string name="training_personal_hint_repeat">Zopakujte svoju vetu...</string>
+    <string name="training_personal_hint_repeat">Zopakujte svoju vetu…</string>
     <string name="training_button_next">Pokračovať</string>
     <string name="training_personal_uploading_status">Prebieha spracovanie údajov…</string>
     <string name="training_common_uploading_status">Prebieha spracovanie údajov…</string>
     <string name="training_personal_model_training_status">Modely sa aktuálne trénujú. Tento krok môže trvať niekoľko minút, prosím čakajte…</string>
     <string name="training_personal_model_training_success">Modely boli úspešne dotrénované.</string>
+    <string name="training_personal_error_sentence_save">Nepodarilo sa uložiť vetu do profilu.</string>
+    <string name="training_personal_error_model_training_failed">Trénovanie modelov zlyhalo. Skúste to prosím znova.</string>
+    <string name="training_personal_error_state_save_failed">Modely sú dotrénované, ale nepodarilo sa uložiť stav používateľa. Skúste to znova.</string>
+    <string name="training_personal_error_finish_failed">Počas dokončovania osobného tréningu nastala chyba. Skúste to prosím znova.</string>
 
     <string name="training_toast_empty_sentence">Prosím, zadajte vetu.</string>
     <string name="training_toast_attempt_saved">Pokus %1$d / %2$d uložený</string>
+    <string name="training_toast_sentence_too_short">Veta je príliš krátka (minimum %1$d znakov). Aktuálne: %2$d.</string>
+    <string name="training_toast_sentence_too_few_words">Veta musí mať aspoň %1$d slov. Aktuálne: %2$d.</string>
 
     <string name="auth_title">Autentifikácia</string>
-    <string name="auth_hint">Napíšte vetu...</string>
+    <string name="auth_mode_general_sentence">Všeobecná veta</string>
+    <string name="auth_mode_personal_sentence">Osobná veta</string>
+    <string name="auth_hint">Napíšte vetu…</string>
     <string name="auth_button">Overiť</string>
     <string name="auth_ready">Pripravené na autentifikáciu</string>
     <string name="auth_result_dialog_ok">OK</string>
@@ -66,5 +77,18 @@
     <string name="auth_result_message_rejected">Vašu identitu sa nepodarilo overiť. Skúste to prosím znova.</string>
     <string name="auth_result_message_server_error">Počas overovania nastal problém so serverom. Skúste to prosím o chvíľu znova.</string>
     <string name="auth_text_mismatch">Zadaný text sa nezhoduje s požadovanou vetou.</string>
+    <string name="auth_error_user_not_logged_in">Používateľ nie je prihlásený.</string>
+    <string name="auth_error_personal_sentence_not_found">Osobná veta nebola nájdená.</string>
+    <string name="auth_error_target_sentence_missing">Cieľová veta nie je načítaná.</string>
+    <string name="auth_error_profile_load_failed">Nepodarilo sa načítať profil používateľa.</string>
+    <string name="auth_error_upload_failed">Počas overovania nastala chyba. Skúste to prosím znova.</string>
+
+    <string name="login_toast_success">Prihlásenie bolo úspešné.</string>
+    <string name="login_toast_finish_common_training">Prosím, dokončite spoločný tréning.</string>
+    <string name="login_toast_finish_personal_training">Prosím, dokončite osobný tréning.</string>
+
+    <string name="signup_toast_success">Registrácia bola úspešne dokončená.</string>
+    <string name="signup_error_registration_failed">Registrácia zlyhala. Skontrolujte zadané údaje a skúste to znova.</string>
+    <string name="signup_error_profile_save_failed">Registrácia prebehla, ale nepodarilo sa uložiť profil používateľa.</string>
 
 </resources>

@@ -26,7 +26,7 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
             userRepository
         )
     }
-    private val commonSentence = "Dnes je vonku pekne, idem von so psom na dvor a budem tam asi hodinu, bude to fajn."
+    private val commonSentence by lazy { getString(R.string.training_common_sentence_default) }
 
     private var keystrokeLogger: EditTextLogger? = null
     private var inputField: EditText? = null

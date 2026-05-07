@@ -96,7 +96,7 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
             if (charCount < minCharacters) {
                 Toast.makeText(
                     requireContext(),
-                    "Veta je príliš krátka (min. $minCharacters znakov). Aktuálne: $charCount",
+                    getString(R.string.training_toast_sentence_too_short, minCharacters, charCount),
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
@@ -105,7 +105,7 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
             if (wordCount < minWords) {
                 Toast.makeText(
                     requireContext(),
-                    "Veta musí mať aspoň $minWords slová. Aktuálne: $wordCount",
+                    getString(R.string.training_toast_sentence_too_few_words, minWords, wordCount),
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener

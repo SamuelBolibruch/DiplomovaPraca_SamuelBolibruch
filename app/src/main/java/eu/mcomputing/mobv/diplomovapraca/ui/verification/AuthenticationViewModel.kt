@@ -20,7 +20,7 @@ class AuthenticationViewModel(
     private val behaBioAuthRepository: BehaBioAuthRepository
 ) : ViewModel() {
 
-    val authSentence = "Dnes je vonku pekne, idem von so psom na dvor a budem tam asi hodinu, bude to fajn."
+    val authSentence = application.getString(R.string.training_common_sentence_default)
     val typedText = MutableLiveData("")
 
     private val _personalSentence = MutableLiveData("")
@@ -33,7 +33,7 @@ class AuthenticationViewModel(
         val uid = authRepository.getCurrentUser()?.uid
 
         if (uid.isNullOrBlank()) {
-            _state.value = AuthenticationState.Error("Používateľ nie je prihlásený.")
+            _state.value = AuthenticationState.Error(application.getString(R.string.auth_error_user_not_logged_in))
             return
         }
 
@@ -43,16 +43,14 @@ class AuthenticationViewModel(
                     val sentence = result.data.personalSentence
 
                     if (sentence.isBlank()) {
-                        _state.value = AuthenticationState.Error("Osobná veta nebola nájdená.")
+                        _state.value = AuthenticationState.Error(application.getString(R.string.auth_error_personal_sentence_not_found))
                     } else {
                         _personalSentence.value = sentence
                     }
                 }
 
                 is Result.Error -> {
-                    _state.value = AuthenticationState.Error(
-                        result.exception.message ?: "Nepodarilo sa načítať profil používateľa."
-                    )
+                    _state.value = AuthenticationState.Error(application.getString(R.string.auth_error_profile_load_failed))
                 }
             }
         }
@@ -76,7 +74,7 @@ class AuthenticationViewModel(
 
         if (trimmedTarget.isBlank()) {
             Log.e(tag, "Target sentence is blank")
-            _state.value = AuthenticationState.Error("Cieľová veta nie je načítaná.")
+            _state.value = AuthenticationState.Error(application.getString(R.string.auth_error_target_sentence_missing))
             return
         }
 
@@ -89,7 +87,7 @@ class AuthenticationViewModel(
         val uid = authRepository.getCurrentUser()?.uid
         if (uid == null) {
             Log.e(tag, "User is not logged in, uid is null")
-            _state.value = AuthenticationState.Error("Používateľ nie je prihlásený.")
+            _state.value = AuthenticationState.Error(application.getString(R.string.auth_error_user_not_logged_in))
             return
         }
 
@@ -197,7 +195,7 @@ class AuthenticationViewModel(
                 typedText.postValue("")
                 Log.d(tag, "typedText cleared in catch block")
                 _state.value = AuthenticationState.Error(
-                    e.message ?: "Authentication upload failed"
+                    e.message ?: application.getString(R.string.auth_error_upload_failed)
                 )
             }
         }

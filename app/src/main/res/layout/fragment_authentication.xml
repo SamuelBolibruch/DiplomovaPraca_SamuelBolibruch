@@ -40,7 +40,7 @@
                 android:id="@+id/radioGeneralSentence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Všeobecná veta"
+                android:text="@string/auth_mode_general_sentence"
                 android:checked="true" />
 
             <RadioButton
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="Osobná veta" />
+                android:text="@string/auth_mode_personal_sentence" />
         </RadioGroup>
 
         <TextView

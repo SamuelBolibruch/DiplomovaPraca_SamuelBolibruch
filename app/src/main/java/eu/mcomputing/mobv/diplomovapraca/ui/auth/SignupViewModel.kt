@@ -1,10 +1,12 @@
 package eu.mcomputing.mobv.diplomovapraca.ui.auth
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import eu.mcomputing.mobv.diplomovapraca.R
 import eu.mcomputing.mobv.diplomovapraca.data.repository.AuthRepository
 import kotlinx.coroutines.launch
 import eu.mcomputing.mobv.diplomovapraca.data.Result
@@ -12,9 +14,10 @@ import eu.mcomputing.mobv.diplomovapraca.data.model.User
 import eu.mcomputing.mobv.diplomovapraca.data.repository.UserRepository
 
 class SignupViewModel(
+    application: Application,
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
@@ -99,7 +102,7 @@ class SignupViewModel(
                         is Result.Error -> {
                             Log.e("FIRESTORE_ERROR", "Chyba pri ukladaní profilu:", userResult.exception)
                             _signupState.value = SignupState.Error(
-                                "Registrácia úspešná, ale chyba pri ukladaní profilu: ${userResult.exception.message}"
+                                getApplication<Application>().getString(R.string.signup_error_profile_save_failed)
                             )
                         }
                     }
@@ -107,7 +110,7 @@ class SignupViewModel(
 
                 is Result.Error -> {
                     _signupState.value = SignupState.Error(
-                        authResult.exception.message ?: "Neznáma chyba registrácie."
+                        getApplication<Application>().getString(R.string.signup_error_registration_failed)
                     )
                 }
             }

@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import eu.mcomputing.mobv.diplomovapraca.R
 import eu.mcomputing.mobv.diplomovapraca.data.Result
 import eu.mcomputing.mobv.diplomovapraca.data.repository.AuthRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.FileRepository
@@ -39,7 +40,7 @@ class TrainingCommonViewModel(
         val uid = authRepository.getCurrentUser()?.uid
         if (uid == null) {
             _state.value =
-                TrainingCommonState.Error("Používateľ nie je prihlásený. Prosím, prihláste sa znova.")
+                TrainingCommonState.Error(getApplication<Application>().getString(R.string.training_error_not_logged_in))
             return
         }
 
@@ -88,13 +89,13 @@ class TrainingCommonViewModel(
                     }
                     is Result.Error -> {
                         Log.e("FIREBASE_UPDATE", "Chyba pri aktualizácii statusu tréningu.", updateResult.exception)
-                        _state.value = TrainingCommonState.Error("Nahrávanie OK, ale chyba pri aktualizácii statusu používateľa.")
+                        _state.value = TrainingCommonState.Error(getApplication<Application>().getString(R.string.training_error_status_update))
                     }
                 }
 
             } catch (e: Exception) {
                 Log.e("UPLOAD_ERROR", "Chyba pri nahrávaní dávky $batchId", e)
-                _state.value = TrainingCommonState.Error("Nahrávanie dát zlyhalo: ${e.message}")
+                _state.value = TrainingCommonState.Error(getApplication<Application>().getString(R.string.training_error_upload_failed))
             }
         }
     }
