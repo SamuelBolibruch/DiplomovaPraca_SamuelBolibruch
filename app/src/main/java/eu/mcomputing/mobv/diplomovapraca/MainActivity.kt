@@ -12,9 +12,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 🔥 VOLANIE NA VYMAZANIE LOGOV
-        // Vymaže všetky staré logy pri každom spustení aplikácie.
-        FileUtils.clearLogsDirectory(applicationContext)
+        // 🔥 VOLANIE NA VYČISTENIE LOGOV
+        // Vyprázdni obsah starých logov pri každom spustení aplikácie, ale zachová súbory aj ich hlavičky.
+        FileUtils.truncateLogsDirectory(applicationContext)
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)

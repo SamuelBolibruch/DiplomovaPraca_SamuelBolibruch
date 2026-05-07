@@ -10,7 +10,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.behametrics.logger.Logger
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eu.mcomputing.mobv.diplomovapraca.R
 import eu.mcomputing.mobv.diplomovapraca.authRepository
@@ -191,7 +190,6 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
 
         buttonLogout.setOnClickListener {
             resultDialog?.dismiss()
-            activity?.let { Logger.stop(it) }
             inputField?.let { keystrokeLogger?.detachFrom(it) }
             viewModel.logout()
             findNavController().navigate(R.id.action_authenticationFragment_to_loginFragment)
@@ -247,7 +245,6 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
         super.onDestroyView()
         resultDialog?.dismiss()
         resultDialog = null
-        activity?.let { Logger.stop(it) }
         inputField?.let { keystrokeLogger?.detachFrom(it) }
         keystrokeLogger = null
         inputField = null

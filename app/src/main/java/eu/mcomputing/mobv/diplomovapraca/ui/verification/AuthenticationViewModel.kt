@@ -218,7 +218,7 @@ class AuthenticationViewModel(
         authenticationJob = null
 
         authRepository.signOut()
-        FileUtils.clearLogsDirectory(application.applicationContext)
+        FileUtils.truncateLogsDirectory(application.applicationContext)
 
         typedText.value = ""
         _personalSentence.value = ""

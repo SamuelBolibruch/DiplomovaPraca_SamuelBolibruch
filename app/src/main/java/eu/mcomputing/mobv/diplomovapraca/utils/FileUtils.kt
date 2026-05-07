@@ -44,15 +44,15 @@ object FileUtils {
     }
 
     /**
-     * Vymaže všetky súbory, ktoré sa nachádzajú v adresári 'logs'.
+     * Vyčistí obsah všetkých log súborov v adresári 'logs' a zachová ich hlavičky.
      */
-    fun clearLogsDirectory(context: Context) {
+    fun truncateLogsDirectory(context: Context) {
         val logsDir = getLogsDirectory(context)
         val files = logsDir.listFiles()
 
         files?.forEach { file ->
             if (file.isFile) {
-                file.delete()
+                truncateExistingLogFile(file)
             }
         }
     }
@@ -65,6 +65,11 @@ object FileUtils {
      */
     fun truncateLogFile(context: Context, fileName: String) {
         val logFile = getLogFile(context, fileName)
+
+        truncateExistingLogFile(logFile)
+    }
+
+    private fun truncateExistingLogFile(logFile: File) {
 
         if (logFile.exists() && logFile.length() > 0) {
             try {
