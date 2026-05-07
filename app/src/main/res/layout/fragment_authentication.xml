@@ -4,130 +4,136 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:background="@color/screen_background"
+    android:paddingHorizontal="28dp"
+    android:paddingTop="48dp"
+    android:paddingBottom="34dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/centerWrapper"
+    <View
+        android:id="@+id/topAccent"
+        android:layout_width="58dp"
+        android:layout_height="6dp"
+        android:background="@drawable/bg_top_accent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textAuthTitle"
+        style="@style/TextAppearance.DiplomovaPraca.ScreenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/auth_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topAccent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupSentenceType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="26dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/textAuthTitle">
 
-        <TextView
-            android:id="@+id/textAuthTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/auth_title"
-            android:textStyle="bold"
-            android:textSize="22sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <RadioGroup
-            android:id="@+id/radioGroupSentenceType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/textAuthTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <RadioButton
-                android:id="@+id/radioGeneralSentence"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/auth_mode_general_sentence"
-                android:checked="true" />
-
-            <RadioButton
-                android:id="@+id/radioPersonalSentence"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/auth_mode_personal_sentence" />
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/textAuthGeneral"
+        <RadioButton
+            android:id="@+id/radioGeneralSentence"
+            style="@style/Widget.DiplomovaPraca.PillToggle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/radioGroupSentenceType"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/editTextAuth"/>
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="@string/auth_mode_general_sentence" />
 
-        <TextView
-            android:id="@+id/textAuthSentence"
+        <RadioButton
+            android:id="@+id/radioPersonalSentence"
+            style="@style/Widget.DiplomovaPraca.PillToggle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/radioGroupSentenceType"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/editTextAuth"/>
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:text="@string/auth_mode_personal_sentence" />
+    </RadioGroup>
 
-        <EditText
-            android:id="@+id/editTextAuth"
-            android:layout_width="0dp"
+    <TextView
+        android:id="@+id/textAuthGeneral"
+        style="@style/TextAppearance.DiplomovaPraca.Sentence"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/bg_sentence_box"
+        android:gravity="center_vertical"
+        android:padding="24dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupSentenceType" />
+
+    <TextView
+        android:id="@+id/textAuthSentence"
+        style="@style/TextAppearance.DiplomovaPraca.Sentence"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/bg_sentence_box"
+        android:gravity="center_vertical"
+        android:padding="24dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupSentenceType" />
+
+    <EditText
+        android:id="@+id/editTextAuth"
+        style="@style/Widget.DiplomovaPraca.OutlinedInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:importantForAutofill="no"
+        android:hint="@string/auth_hint"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textAuthGeneral" />
+
+    <TextView
+        android:id="@+id/textAuthStatus"
+        style="@style/TextAppearance.DiplomovaPraca.Status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextAuth" />
+
+    <FrameLayout
+        android:id="@+id/authButtonContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSubmitAuth"
+            style="@style/Widget.DiplomovaPraca.PrimaryButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:hint="@string/auth_hint"
-            android:inputType="text"
-            app:layout_constraintTop_toBottomOf="@id/textAuthGeneral"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:enabled="false"
+            android:text="@string/auth_button" />
 
-        <TextView
-            android:id="@+id/textAuthStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text=""
-            app:layout_constraintTop_toBottomOf="@id/editTextAuth"
-            app:layout_constraintStart_toStartOf="parent" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@android:color/white"
+            android:visibility="gone" />
+    </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/authButtonContainer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/textAuthStatus"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonSubmitAuth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="10dp"
-                android:text="@string/auth_button"
-                android:textColor="@android:color/white"
-                android:enabled="false"
-                app:backgroundTint="?attr/colorPrimary"
-                app:cornerRadius="12dp" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:indeterminateTint="@android:color/white"
-                android:visibility="gone" />
-        </FrameLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

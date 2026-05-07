@@ -4,130 +4,173 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:background="@color/screen_background"
+    android:paddingHorizontal="28dp"
+    android:paddingTop="48dp"
+    android:paddingBottom="34dp">
 
-    <!-- KROK 1: Výber osobnej vety -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/selectWrapper"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/trainingChipSelect"
+            style="@style/TextAppearance.DiplomovaPraca.TrainingChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_training_chip"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="9dp"
+            android:text="@string/training_chip_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textTitleSelect"
+            style="@style/TextAppearance.DiplomovaPraca.ScreenTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/training_personal_title_select"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/trainingChipSelect" />
+
+        <TextView
+            android:id="@+id/labelPersonalSentence"
+            style="@style/TextAppearance.DiplomovaPraca.SectionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/training_personal_title_select"
-            android:textStyle="bold"
-            android:textSize="22sp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="34dp"
+            android:text="@string/auth_mode_personal_sentence"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/textTitleSelect" />
 
         <EditText
             android:id="@+id/inputPersonalSentence"
+            style="@style/Widget.DiplomovaPraca.OutlinedInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:importantForAutofill="no"
+            android:gravity="top|start"
             android:hint="@string/training_personal_hint_input"
-            android:layout_marginTop="24dp"
-            android:inputType="text"
-            app:layout_constraintTop_toBottomOf="@id/textTitleSelect"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/labelPersonalSentence" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSetSentence"
+            style="@style/Widget.DiplomovaPraca.PrimaryButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/training_personal_button_set"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/inputPersonalSentence"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-    <!-- KROK 2: Tréning opakovania -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/trainingWrapper"
-        android:visibility="gone"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Nadpis tréningu -->
+        <TextView
+            android:id="@+id/trainingChipRepeat"
+            style="@style/TextAppearance.DiplomovaPraca.TrainingChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_training_chip"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="9dp"
+            android:text="@string/training_chip_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textTitleTraining"
+            style="@style/TextAppearance.DiplomovaPraca.ScreenTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="@string/training_personal_title"
-            android:textStyle="bold"
-            android:textSize="22sp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/trainingChipRepeat" />
 
-        <!-- Veta NA ODPISOVANIE (normal weight) -->
         <TextView
             android:id="@+id/textPersonalSentence"
-            android:layout_width="wrap_content"
+            style="@style/TextAppearance.DiplomovaPraca.Sentence"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/textTitleTraining"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_sentence_box"
+            android:padding="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/textTitleTraining" />
 
         <EditText
             android:id="@+id/editTextRepeat"
+            style="@style/Widget.DiplomovaPraca.OutlinedInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:importantForAutofill="no"
             android:hint="@string/training_personal_hint_repeat"
-            android:layout_marginTop="24dp"
             android:inputType="text"
-            app:layout_constraintTop_toBottomOf="@id/textPersonalSentence"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/textPersonalSentence" />
+
+        <View
+            android:id="@+id/progressLine"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_progress_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextRepeat" />
 
         <TextView
             android:id="@+id/textProgress"
+            style="@style/TextAppearance.DiplomovaPraca.Status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/training_progress_prefix"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@id/editTextRepeat"
+            android:textAlignment="viewEnd"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/progressLine" />
 
-
-        <!-- 🔥 FrameLayout pre NEXT + ProgressBar -->
         <FrameLayout
             android:id="@+id/trainingButtonContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/textProgress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonNext"
+                style="@style/Widget.DiplomovaPraca.PrimaryButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="10dp"
-                android:text="@string/training_button_next"
-                android:textColor="@android:color/white"
                 android:enabled="false"
-                app:backgroundTint="?attr/colorPrimary"
-                app:cornerRadius="12dp" />
+                android:text="@string/training_button_next" />
 
             <ProgressBar
                 android:id="@+id/progressBar"

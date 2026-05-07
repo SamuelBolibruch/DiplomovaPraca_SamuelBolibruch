@@ -1,25 +1,26 @@
 <resources>
     <string name="app_name">Diplomová práca</string>
+    <string name="training_chip_label">Tréning</string>
 
     <string name="login_title">Prihlásenie</string>
     <string name="login_label_username">Používateľské meno:</string>
     <string name="login_hint_username">Zadajte používateľské meno</string>
-    <string name="login_label_password">Heslo:</string>
+    <string name="login_label_password">Heslo</string>
     <string name="login_hint_password">Zadajte heslo</string>
     <string name="login_text_forgot_password">Zabudli ste heslo?</string>
     <string name="login_text_register">Nemáte účet? Zaregistrujte sa</string>
     <string name="login_button_submit">Prihlásiť sa</string>
 
     <string name="signup_title">Registrácia</string>
-    <string name="login_label_email">E-mail:</string>
+    <string name="login_label_email">E-mail</string>
     <string name="login_hint_email">Zadajte e-mail</string>
-    <string name="signup_label_password">Heslo:</string>
+    <string name="signup_label_password">Heslo</string>
     <string name="signup_hint_password">Zadajte heslo</string>
-    <string name="signup_label_password_confirm">Potvrďte heslo:</string>
+    <string name="signup_label_password_confirm">Potvrďte heslo</string>
     <string name="signup_hint_password_confirm">Znova zadajte heslo</string>
     <string name="signup_text_login">Už máte účet? Prihláste sa</string>
     <string name="signup_button_register">Registrovať sa</string>
-    <string name="signup_label_email">E-mail:</string>
+    <string name="signup_label_email">E-mail</string>
     <string name="signup_hint_email">Zadajte e-mail</string>
 
     <string name="additional_info_title">Dodatočné informácie</string>
@@ -33,17 +34,17 @@
     <string name="additional_info_hand_left">Ľavák</string>
     <string name="additional_info_button_confirm">Potvrdiť</string>
 
-    <string name="training_common_title">Tréning - Spoločná veta</string>
+    <string name="training_common_title">Spoločná veta</string>
     <string name="training_common_sentence_default">Dnes je vonku pekne, idem von so psom na dvor a budem tam asi hodinu, bude to fajn.</string>
     <string name="training_hint_repeat_common">Napíšte vetu uvedenú vyššie…</string>
-    <string name="training_progress_prefix">Pokrok:</string>
-    <string name="training_progress_format">Pokrok: %1$d / %2$d</string>
+    <string name="training_progress_prefix">0 / 15</string>
+    <string name="training_progress_format">%1$d / %2$d</string>
     <string name="training_button_continue">Pokračovať v trénovaní</string>
     <string name="training_error_not_logged_in">Používateľ nie je prihlásený. Prosím, prihláste sa znova.</string>
     <string name="training_error_status_update">Nahrávanie prebehlo úspešne, ale nepodarilo sa aktualizovať stav používateľa.</string>
     <string name="training_error_upload_failed">Nahrávanie dát zlyhalo. Skúste to prosím znova.</string>
 
-    <string name="training_personal_title">Tréning - Osobná veta</string>
+    <string name="training_personal_title">Osobná veta</string>
     <string name="training_personal_title_select">Vyberte si svoju osobnú vetu</string>
     <string name="training_personal_hint_input">Sem napíšte svoju vetu…</string>
     <string name="training_personal_button_set">Nastaviť moju vetu</string>

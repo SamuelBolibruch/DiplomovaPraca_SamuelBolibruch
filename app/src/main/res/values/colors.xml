@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="brand_primary">#5D50D6</color>
+    <color name="brand_primary_dark">#4438B8</color>
+    <color name="screen_background">#FCFBFF</color>
+    <color name="sentence_background">#F2EFFF</color>
+    <color name="card_selected_background">#F3F0FF</color>
+    <color name="progress_track">#ECE9FA</color>
+    <color name="outline_purple">#C7C0FF</color>
+    <color name="text_primary">#1F1D33</color>
+    <color name="text_muted">#9895A5</color>
+    <color name="text_hint">#B1AFBA</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
