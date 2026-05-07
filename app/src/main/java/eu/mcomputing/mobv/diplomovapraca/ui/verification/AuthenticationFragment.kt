@@ -9,6 +9,8 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.behametrics.logger.Logger
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eu.mcomputing.mobv.diplomovapraca.R
 import eu.mcomputing.mobv.diplomovapraca.authRepository
@@ -50,6 +52,7 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
 
         inputField = view.findViewById(R.id.editTextAuth)
         val buttonSubmit = view.findViewById<Button>(R.id.buttonSubmitAuth)
+        val buttonLogout = view.findViewById<Button>(R.id.buttonLogout)
         val statusText = view.findViewById<TextView>(R.id.textAuthStatus)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
@@ -60,12 +63,18 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
         val keystrokeFileName = "keystrokes_authentication.csv"
         val fileType = "authentication"
 
+        fun renderSubmitAvailability() {
+            val isExactMatch = viewModel.typedText.value == selectedSentence && selectedSentence.isNotBlank()
+            buttonSubmit.isEnabled = isExactMatch
+            buttonSubmit.alpha = if (isExactMatch) 1.0f else 0.55f
+            statusText.text = if (isExactMatch) getString(R.string.auth_ready) else ""
+        }
+
         fun resetInputState() {
             inputField?.setText("")
             inputField?.setTextColor(defaultTextColor)
             inputField?.isEnabled = true
-            buttonSubmit.isEnabled = false
-            statusText.text = ""
+            renderSubmitAvailability()
 
             inputField?.let { editText ->
                 keystrokeLogger?.detachFrom(editText)
@@ -97,7 +106,7 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
         }
 
         generalSentenceText.text = viewModel.authSentence
-        buttonSubmit.isEnabled = false
+        renderSubmitAvailability()
 
         // Default výber = všeobecná veta
         radioGeneral.isChecked = true
@@ -132,8 +141,6 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
             inputField?.setText("")
             inputField?.setTextColor(defaultTextColor)
             inputField?.isEnabled = true
-            statusText.text = ""
-            buttonSubmit.isEnabled = false
             viewModel.typedText.value = ""
 
             when (checkedId) {
@@ -153,6 +160,8 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
                     personalSentenceText.isVisible = true
                 }
             }
+
+            renderSubmitAvailability()
         }
 
         inputField?.addTextChangedListener { s ->
@@ -166,13 +175,7 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
         }
 
         viewModel.typedText.observe(viewLifecycleOwner) { typed ->
-            if (typed == selectedSentence && selectedSentence.isNotBlank()) {
-                buttonSubmit.isEnabled = true
-                statusText.text = getString(R.string.auth_ready)
-            } else {
-                buttonSubmit.isEnabled = false
-                statusText.text = ""
-            }
+            renderSubmitAvailability()
         }
 
         buttonSubmit.setOnClickListener {
@@ -186,15 +189,21 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
             )
         }
 
+        buttonLogout.setOnClickListener {
+            resultDialog?.dismiss()
+            activity?.let { Logger.stop(it) }
+            inputField?.let { keystrokeLogger?.detachFrom(it) }
+            viewModel.logout()
+            findNavController().navigate(R.id.action_authenticationFragment_to_loginFragment)
+        }
+
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
 
                 is AuthenticationState.Idle -> {
                     progressBar.isVisible = false
-                    buttonSubmit.isEnabled =
-                        viewModel.typedText.value == selectedSentence && selectedSentence.isNotBlank()
                     buttonSubmit.text = normalButtonText
-                    buttonSubmit.alpha = 1.0f
+                    renderSubmitAvailability()
                 }
 
                 is AuthenticationState.Loading -> {
@@ -238,6 +247,7 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
         super.onDestroyView()
         resultDialog?.dismiss()
         resultDialog = null
+        activity?.let { Logger.stop(it) }
         inputField?.let { keystrokeLogger?.detachFrom(it) }
         keystrokeLogger = null
         inputField = null

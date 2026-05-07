@@ -1,42 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/screen_background"
-    android:paddingHorizontal="28dp"
-    android:paddingTop="48dp"
-    android:paddingBottom="34dp">
+    android:fillViewport="true"
+    tools:context=".ui.verification.AuthenticationFragment">
 
-    <View
-        android:id="@+id/topAccent"
-        android:layout_width="58dp"
-        android:layout_height="6dp"
-        android:background="@drawable/bg_top_accent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textAuthTitle"
-        style="@style/TextAppearance.DiplomovaPraca.ScreenTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/auth_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAccent" />
+        android:orientation="vertical"
+        android:paddingHorizontal="28dp"
+        android:paddingTop="48dp"
+        android:paddingBottom="34dp">
 
-    <RadioGroup
-        android:id="@+id/radioGroupSentenceType"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textAuthTitle">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/topAccent"
+                android:layout_width="58dp"
+                android:layout_height="6dp"
+                android:background="@drawable/bg_top_accent" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLogout"
+                style="@style/Widget.DiplomovaPraca.TopActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auth_button_logout" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textAuthTitle"
+            style="@style/TextAppearance.DiplomovaPraca.ScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/auth_title" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupSentenceType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
         <RadioButton
             android:id="@+id/radioGeneralSentence"
@@ -55,85 +74,72 @@
             android:layout_marginStart="14dp"
             android:layout_weight="1"
             android:text="@string/auth_mode_personal_sentence" />
-    </RadioGroup>
+        </RadioGroup>
 
-    <TextView
-        android:id="@+id/textAuthGeneral"
-        style="@style/TextAppearance.DiplomovaPraca.Sentence"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:background="@drawable/bg_sentence_box"
-        android:gravity="center_vertical"
-        android:padding="24dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupSentenceType" />
-
-    <TextView
-        android:id="@+id/textAuthSentence"
-        style="@style/TextAppearance.DiplomovaPraca.Sentence"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:background="@drawable/bg_sentence_box"
-        android:gravity="center_vertical"
-        android:padding="24dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupSentenceType" />
-
-    <EditText
-        android:id="@+id/editTextAuth"
-        style="@style/Widget.DiplomovaPraca.OutlinedInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:importantForAutofill="no"
-        android:hint="@string/auth_hint"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textAuthGeneral" />
-
-    <TextView
-        android:id="@+id/textAuthStatus"
-        style="@style/TextAppearance.DiplomovaPraca.Status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:gravity="end"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextAuth" />
-
-    <FrameLayout
-        android:id="@+id/authButtonContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonSubmitAuth"
-            style="@style/Widget.DiplomovaPraca.PrimaryButton"
+        <TextView
+            android:id="@+id/textAuthGeneral"
+            style="@style/TextAppearance.DiplomovaPraca.Sentence"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/auth_button" />
+            android:layout_marginTop="22dp"
+            android:background="@drawable/bg_sentence_box"
+            android:gravity="center_vertical"
+            android:padding="24dp"
+            android:visibility="visible" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:indeterminateTint="@android:color/white"
+        <TextView
+            android:id="@+id/textAuthSentence"
+            style="@style/TextAppearance.DiplomovaPraca.Sentence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/bg_sentence_box"
+            android:gravity="center_vertical"
+            android:padding="24dp"
             android:visibility="gone" />
-    </FrameLayout>
 
+        <EditText
+            android:id="@+id/editTextAuth"
+            style="@style/Widget.DiplomovaPraca.OutlinedInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:hint="@string/auth_hint"
+            android:importantForAutofill="no"
+            android:inputType="text" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textAuthStatus"
+            style="@style/TextAppearance.DiplomovaPraca.Status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center" />
+
+        <FrameLayout
+            android:id="@+id/authButtonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSubmitAuth"
+                style="@style/Widget.DiplomovaPraca.PrimaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/auth_button" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@android:color/white"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

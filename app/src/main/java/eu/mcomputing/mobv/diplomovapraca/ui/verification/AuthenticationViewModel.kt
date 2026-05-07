@@ -10,6 +10,8 @@ import eu.mcomputing.mobv.diplomovapraca.data.repository.BehaBioAuthRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.FileRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.UserRepository
 import eu.mcomputing.mobv.diplomovapraca.utils.FileUtils
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class AuthenticationViewModel(
@@ -19,6 +21,8 @@ class AuthenticationViewModel(
     private val userRepository: UserRepository,
     private val behaBioAuthRepository: BehaBioAuthRepository
 ) : ViewModel() {
+
+    private var authenticationJob: Job? = null
 
     val authSentence = application.getString(R.string.training_common_sentence_default)
     val typedText = MutableLiveData("")
@@ -102,7 +106,8 @@ class AuthenticationViewModel(
             Pair(specificKeystrokeFileName, "keystrokes")
         )
 
-        viewModelScope.launch {
+        authenticationJob?.cancel()
+        authenticationJob = viewModelScope.launch {
             _state.value = AuthenticationState.Loading
             Log.d(tag, "State changed to Loading")
 
@@ -190,6 +195,9 @@ class AuthenticationViewModel(
                     }
                 }
 
+            } catch (e: CancellationException) {
+                Log.i(tag, "authenticateUser() cancelled")
+                throw e
             } catch (e: Exception) {
                 Log.e(tag, "authenticateUser() failed", e)
                 typedText.postValue("")
@@ -197,13 +205,35 @@ class AuthenticationViewModel(
                 _state.value = AuthenticationState.Error(
                     e.message ?: application.getString(R.string.auth_error_upload_failed)
                 )
+            } finally {
+                if (authenticationJob?.isActive != true) {
+                    authenticationJob = null
+                }
             }
         }
+    }
+
+    fun logout() {
+        authenticationJob?.cancel()
+        authenticationJob = null
+
+        authRepository.signOut()
+        FileUtils.clearLogsDirectory(application.applicationContext)
+
+        typedText.value = ""
+        _personalSentence.value = ""
+        _state.value = AuthenticationState.Idle
     }
 
     fun reset() {
         typedText.value = ""
         _state.value = AuthenticationState.Idle
+    }
+
+    override fun onCleared() {
+        authenticationJob?.cancel()
+        authenticationJob = null
+        super.onCleared()
     }
 }
 

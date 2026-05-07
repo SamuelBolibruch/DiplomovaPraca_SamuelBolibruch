@@ -68,6 +68,7 @@
     <string name="auth_title">Autentifikácia</string>
     <string name="auth_mode_general_sentence">Všeobecná veta</string>
     <string name="auth_mode_personal_sentence">Osobná veta</string>
+    <string name="auth_button_logout">Odhlásiť</string>
     <string name="auth_hint">Napíšte vetu…</string>
     <string name="auth_button">Overiť</string>
     <string name="auth_ready">Pripravené na autentifikáciu</string>

@@ -1,160 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/additional_info_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/screen_background"
-    android:paddingHorizontal="28dp"
-    android:paddingTop="48dp"
-    android:paddingBottom="34dp"
+    android:fillViewport="true"
     tools:context=".ui.auth.AdditionalSignupInfoFragment">
 
-    <View
-        android:id="@+id/topAccent"
-        android:layout_width="58dp"
-        android:layout_height="6dp"
-        android:background="@drawable/bg_top_accent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/titleAdditional"
-        style="@style/TextAppearance.DiplomovaPraca.ScreenTitle"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/additional_info_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAccent" />
+        android:orientation="vertical"
+        android:paddingHorizontal="28dp"
+        android:paddingTop="48dp"
+        android:paddingBottom="34dp">
 
-    <TextView
-        android:id="@+id/labelAge"
-        style="@style/TextAppearance.DiplomovaPraca.SectionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:text="@string/additional_info_label_age"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleAdditional" />
+        <View
+            android:id="@+id/topAccent"
+            android:layout_width="58dp"
+            android:layout_height="6dp"
+            android:background="@drawable/bg_top_accent" />
 
-    <EditText
-        android:id="@+id/editTextAge"
-        style="@style/Widget.DiplomovaPraca.OutlinedInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:autofillHints="postalAddressExtendedPostalCode"
-        android:hint="@string/additional_info_hint_age"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelAge" />
-
-    <TextView
-        android:id="@+id/labelGender"
-        style="@style/TextAppearance.DiplomovaPraca.SectionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/additional_info_label_gender"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextAge" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupGender"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelGender">
-
-        <RadioButton
-            android:id="@+id/radioMale"
-            style="@style/Widget.DiplomovaPraca.SelectionCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/additional_info_gender_male" />
-
-        <RadioButton
-            android:id="@+id/radioFemale"
-            style="@style/Widget.DiplomovaPraca.SelectionCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:text="@string/additional_info_gender_female" />
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/labelHand"
-        style="@style/TextAppearance.DiplomovaPraca.SectionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/additional_info_label_hand"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupGender" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupHand"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelHand">
-
-        <RadioButton
-            android:id="@+id/radioRightHand"
-            style="@style/Widget.DiplomovaPraca.SelectionCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/additional_info_hand_right" />
-
-        <RadioButton
-            android:id="@+id/radioLeftHand"
-            style="@style/Widget.DiplomovaPraca.SelectionCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:text="@string/additional_info_hand_left" />
-    </RadioGroup>
-
-    <FrameLayout
-        android:id="@+id/confirmButtonContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/confirmButton"
-            style="@style/Widget.DiplomovaPraca.PrimaryButton"
+        <TextView
+            android:id="@+id/titleAdditional"
+            style="@style/TextAppearance.DiplomovaPraca.ScreenTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/additional_info_button_confirm" />
+            android:layout_marginTop="28dp"
+            android:text="@string/additional_info_title" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:indeterminateTint="@android:color/white"
-            android:visibility="gone" />
-    </FrameLayout>
+        <TextView
+            android:id="@+id/labelAge"
+            style="@style/TextAppearance.DiplomovaPraca.SectionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:text="@string/additional_info_label_age" />
 
+        <EditText
+            android:id="@+id/editTextAge"
+            style="@style/Widget.DiplomovaPraca.OutlinedInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:autofillHints="postalAddressExtendedPostalCode"
+            android:hint="@string/additional_info_hint_age"
+            android:inputType="number" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/labelGender"
+            style="@style/TextAppearance.DiplomovaPraca.SectionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/additional_info_label_gender" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                style="@style/Widget.DiplomovaPraca.SelectionCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/additional_info_gender_male" />
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                style="@style/Widget.DiplomovaPraca.SelectionCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:text="@string/additional_info_gender_female" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/labelHand"
+            style="@style/TextAppearance.DiplomovaPraca.SectionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/additional_info_label_hand" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupHand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/radioRightHand"
+                style="@style/Widget.DiplomovaPraca.SelectionCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/additional_info_hand_right" />
+
+            <RadioButton
+                android:id="@+id/radioLeftHand"
+                style="@style/Widget.DiplomovaPraca.SelectionCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:text="@string/additional_info_hand_left" />
+        </RadioGroup>
+
+        <FrameLayout
+            android:id="@+id/confirmButtonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirmButton"
+                style="@style/Widget.DiplomovaPraca.PrimaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/additional_info_button_confirm" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@android:color/white"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
