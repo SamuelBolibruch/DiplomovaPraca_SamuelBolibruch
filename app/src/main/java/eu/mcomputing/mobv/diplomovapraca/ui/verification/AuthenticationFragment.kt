@@ -17,6 +17,7 @@ import eu.mcomputing.mobv.diplomovapraca.behaBioAuthRepository
 import eu.mcomputing.mobv.diplomovapraca.fileRepository
 import eu.mcomputing.mobv.diplomovapraca.userRepository
 import eu.mcomputing.mobv.diplomovapraca.utils.EditTextLogger
+import eu.mcomputing.mobv.diplomovapraca.utils.FileUtils
 import eu.mcomputing.mobv.diplomovapraca.utils.KeyboardLoggingHelper
 
 class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
@@ -141,6 +142,7 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
             inputField?.setTextColor(defaultTextColor)
             inputField?.isEnabled = true
             viewModel.typedText.value = ""
+            FileUtils.truncateLogsDirectory(requireContext())
 
             when (checkedId) {
                 R.id.radioGeneralSentence -> {
