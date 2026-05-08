@@ -10,7 +10,7 @@ import eu.mcomputing.mobv.diplomovapraca.data.repository.AuthRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.UserRepository
 import kotlinx.coroutines.launch
 import eu.mcomputing.mobv.diplomovapraca.data.Result
-import eu.mcomputing.mobv.diplomovapraca.data.model.User // DÔLEŽITÉ: Import modelu User
+import eu.mcomputing.mobv.diplomovapraca.data.model.User
 
 class LoginViewModel(
     private val authRepository: AuthRepository,
@@ -54,35 +54,27 @@ class LoginViewModel(
             val emailValue = email.value!!
             val passwordValue = password.value!!
 
-            // KROK 1: Prihlásenie cez Firebase Auth
             when (val authResult = authRepository.signIn(emailValue, passwordValue)) {
 
                 is Result.Success -> {
                     val firebaseUser = authResult.data
 
-                    // KROK 2: Stiahnutie profilu používateľa (vrátane stavu tréningov)
                     when (val userResult = userRepository.getUserProfile(firebaseUser.uid)) {
 
                         is Result.Success -> {
-                            val userProfile = userResult.data // ✅ Získame profil
-                            Log.i("LOGIN_SUCCESS", "✅ Používateľ ${firebaseUser.uid} prihlásený a profil stiahnutý.")
+                            val userProfile = userResult.data
 
-                            // KROK 3: PODMIENENÁ NAVIGÁCIA
                             if (userProfile.hasCommonTraining == false) {
-                                // Potrebný spoločný tréning
                                 _loginState.value = LoginState.NavCommonTraining
                             } else if (userProfile.hasPersonalTraining == false) {
-                                // Potrebný osobný tréning
                                 _loginState.value = LoginState.NavPersonalTraining
                             } else {
-                                // Všetko hotové, choď na hlavnú obrazovku
                                 _loginState.value = LoginState.NavHome
                             }
                         }
 
                         is Result.Error -> {
-                            // Prihlásenie OK, ale profil nenájdený vo Firestore
-                            Log.e("LOGIN_ERROR", "Chyba: Profil nebol nájdený/nedostupný vo Firestore.", userResult.exception)
+                            Log.e("LOGIN_ERROR", "Profil nebol nájdený vo Firestore.", userResult.exception)
                             authRepository.signOut()
                             _loginState.value = LoginState.Error("Profil používateľa nebol nájdený. Kontaktujte podporu.")
                         }
@@ -90,7 +82,6 @@ class LoginViewModel(
                 }
 
                 is Result.Error -> {
-                    // CHYBA AUTENTIFIKÁCIE (nesprávne heslo/email)
                     Log.e("LOGIN_ERROR", "Chyba pri prihlasovaní.", authResult.exception)
                     _loginState.value = LoginState.Error(
                         "Prihlásenie zlyhalo. Skontrolujte email a heslo."
@@ -111,8 +102,6 @@ sealed class LoginState {
     object Idle : LoginState()
     object Loading : LoginState()
     data class Error(val message: String) : LoginState()
-
-    // ⬇️ NOVÉ STAVY PRE NAVIGÁCIU ⬇️
     object NavHome : LoginState()
     object NavCommonTraining : LoginState()
     object NavPersonalTraining : LoginState()

@@ -24,9 +24,9 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
 
     private val viewModel: TrainingPersonalViewModel by activityViewModels {
         TrainingPersonalViewModelFactory(
-            requireActivity().application, // Odosielame Application Context
-            authRepository,                // Odosielame Singleton AuthRepository
-            fileRepository,                 // Odosielame Singleton FileRepository
+            requireActivity().application,
+            authRepository,
+            fileRepository,
             userRepository,
             behaBioAuthRepository
         )
@@ -43,11 +43,6 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Pôvodný kód bol odtiaľto ODSTRÁNENÝ a presunutý do btnSet.setOnClickListener
-        // activity?.let {
-        //     KeyboardLoggingHelper.bindToKeyboard(it, view)
-        // }
 
         val selectWrapper = view.findViewById<View>(R.id.selectWrapper)
         val trainingWrapper = view.findViewById<View>(R.id.trainingWrapper)
@@ -77,7 +72,6 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
             )
         }
 
-        // STEP 1: User chooses personal sentence
         btnSet.setOnClickListener {
             val typed = inputSentence.text.toString().trim()
 
@@ -111,7 +105,6 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
                 return@setOnClickListener
             }
 
-            // ⬇️ PRIDANÉ: Uloženie vety do Firestore cez ViewModel
             userSentence = typed
             viewModel.saveUserSentence(userSentence)
 
@@ -128,8 +121,6 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
 
             renderProgressStatus()
 
-            // INICIALIZÁCIA A PRIPOJENIE LOGGERU
-            // ⬇️ ÚPRAVA: Použijeme reálne UID z authRepository namiesto "1"
             val currentUid = authRepository.getCurrentUser()?.uid ?: "unknown"
             val initialRoundId = attemptCount + 1
             keystrokeLogger = EditTextLogger(
@@ -140,7 +131,6 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
             )
             editRepeatField?.let { keystrokeLogger?.attachTo(it) }
 
-            // Reset field
             editRepeat.apply {
                 isEnabled = true
                 isFocusable = true
@@ -148,14 +138,13 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
                 isCursorVisible = true
                 keyListener = android.text.method.TextKeyListener.getInstance()
                 text.clear()
-                requestFocus() // Dobré pridať, aby kurzor hneď skočil do poľa
+                requestFocus()
             }
 
             val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(btnSet.windowToken, 0)
         }
 
-        // STEP 2: Train repetition
         editRepeat.addTextChangedListener { s ->
 
             if (userSentence.isBlank()) {
@@ -165,23 +154,18 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
 
             val typed = s?.toString() ?: ""
 
-            // ✅ prefix check oproti userSentence
             val expectedPrefix = userSentence.take(typed.length)
             val isPrefixOk = typed == expectedPrefix
 
-            // ✅ farba podľa chyby
             editRepeat.setTextColor(if (isPrefixOk) defaultTextColor else errorTextColor)
 
-            // pôvodná logika: posun kola iba pri presnej zhode celej vety
             if (typed.trim() == userSentence) {
 
                 attemptCount++
 
                 editRepeat.post {
-                    // 1. Odpojenie loggeru pred vymazaním
                     editRepeatField?.let { keystrokeLogger?.detachFrom(it) }
 
-                    // 2. Vymazanie textu + reset farby
                     editRepeat.text.clear()
                     editRepeat.setTextColor(defaultTextColor)
 
@@ -192,12 +176,8 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
                         editRepeat.isFocusable = false
                         editRepeat.isCursorVisible = false
                         editRepeat.keyListener = null
-                        // Logger zostáva odpojený
                     } else {
-                        // 3. Opätovné pripojenie pre nové kolo
                         editRepeatField?.let { keystrokeLogger?.attachTo(it) }
-
-                        // 4. Nastavenie ID pre budúci pokus
                         keystrokeLogger?.setRoundId(attemptCount + 1)
                     }
                 }
@@ -206,13 +186,12 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
             }
         }
 
-        // STEP 3: NEXT → send from ViewModel
         nextButton.setOnClickListener {
             viewModel.finishTraining()
         }
 
-        // STEP 4: Observe state
         viewModel.state.observe(viewLifecycleOwner) { state ->
+
             when (state) {
 
                 is TrainingPersonalState.Idle -> {
@@ -268,7 +247,6 @@ class TrainingPersonalFragment : Fragment(R.layout.fragment_training_personal) {
         }
     }
 
-    // Zabezpečenie odpojenia loggeru pri zničení view
     override fun onDestroyView() {
         super.onDestroyView()
         editRepeatField?.let { keystrokeLogger?.detachFrom(it) }

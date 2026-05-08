@@ -5,15 +5,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import eu.mcomputing.mobv.diplomovapraca.utils.FileUtils // 🔥 Import FileUtils
+import eu.mcomputing.mobv.diplomovapraca.utils.FileUtils
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 🔥 VOLANIE NA VYČISTENIE LOGOV
-        // Vyprázdni obsah starých logov pri každom spustení aplikácie, ale zachová súbory aj ich hlavičky.
         FileUtils.truncateLogsDirectory(applicationContext)
 
         enableEdgeToEdge()

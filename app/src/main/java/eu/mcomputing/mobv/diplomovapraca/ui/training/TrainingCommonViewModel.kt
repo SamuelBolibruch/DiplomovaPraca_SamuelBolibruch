@@ -19,7 +19,7 @@ class TrainingCommonViewModel(
     application: Application,
     private val authRepository: AuthRepository,
     private val fileRepository: FileRepository,
-    private val userRepository: UserRepository // ✅ Pridaná závislosť pre aktualizáciu profilu
+    private val userRepository: UserRepository
 ) : AndroidViewModel(application) {
 
     private val appContext: Context
@@ -54,7 +54,6 @@ class TrainingCommonViewModel(
 
         viewModelScope.launch {
             try {
-                // 1. Nahrávanie všetkých troch súborov v cykle
                 filesToUpload.forEach { (fileName, purpose) ->
                     val localFile = FileUtils.getLogFile(appContext, fileName)
 
@@ -68,33 +67,28 @@ class TrainingCommonViewModel(
                         )) {
                             is Result.Error -> throw result.exception
                             is Result.Success -> {
-                                Log.i("UPLOAD", "Súbor $fileName úspešne nahraný.")
                                 FileUtils.truncateLogFile(appContext, fileName)
                             }
                         }
-                    } else {
-                        Log.w("UPLOAD_SKIP", "Súbor $fileName je prázdny, preskočené.")
                     }
                 }
 
-                // 2. AKTUALIZÁCIA STAVU POUŽÍVATEĽA VO FIRESTORE (hasCommonTraining = true)
                 when (val updateResult = userRepository.updateTrainingStatus(
                     uid = uid,
                     fieldName = "hasCommonTraining",
                     value = true
                 )) {
                     is Result.Success -> {
-                        Log.i("FIREBASE_UPDATE", "✅ hasCommonTraining úspešne aktualizovaný na TRUE.")
                         _state.value = TrainingCommonState.Success
                     }
                     is Result.Error -> {
-                        Log.e("FIREBASE_UPDATE", "Chyba pri aktualizácii statusu tréningu.", updateResult.exception)
+                        Log.e("TrainingCommonVM", "Chyba pri aktualizácii statusu tréningu.", updateResult.exception)
                         _state.value = TrainingCommonState.Error(getApplication<Application>().getString(R.string.training_error_status_update))
                     }
                 }
 
             } catch (e: Exception) {
-                Log.e("UPLOAD_ERROR", "Chyba pri nahrávaní dávky $batchId", e)
+                Log.e("TrainingCommonVM", "Chyba pri nahrávaní dávky $batchId", e)
                 _state.value = TrainingCommonState.Error(getApplication<Application>().getString(R.string.training_error_upload_failed))
             }
         }

@@ -9,10 +9,6 @@ class UserRepository(private val db: FirebaseFirestore) {
 
     private val USERS_COLLECTION = "users"
 
-    /**
-     * Vytvorí nový dokument používateľa vo Firestore s inicializačnými dátami.
-     * UID z objektu User sa použije ako ID dokumentu.
-     */
     suspend fun createUserProfile(user: User): Result<Unit> {
         if (user.uid.isBlank()) {
             return Result.Error(IllegalArgumentException("UID používateľa je prázdne!"))
@@ -30,10 +26,6 @@ class UserRepository(private val db: FirebaseFirestore) {
         }
     }
 
-    /**
-     * Načíta profil používateľa (vrátane dodatočných dát) z Firestore na základe jeho UID.
-     * Vráti Result.Success s objektom User alebo Result.Error.
-     */
     suspend fun getUserProfile(uid: String): Result<User> {
         return try {
             val snapshot = db.collection(USERS_COLLECTION)
@@ -59,12 +51,11 @@ class UserRepository(private val db: FirebaseFirestore) {
         }
 
         return try {
-            // Vytvoríme Map, ktorá obsahuje len pole, ktoré chceme zmeniť
             val updateMap = mapOf(fieldName to value)
 
             db.collection(USERS_COLLECTION)
                 .document(uid)
-                .update(updateMap) // Používame .update(), nie .set()
+                .update(updateMap)
                 .await()
 
             Result.Success(Unit)

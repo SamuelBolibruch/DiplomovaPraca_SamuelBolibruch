@@ -16,7 +16,6 @@ import eu.mcomputing.mobv.diplomovapraca.data.repository.UserRepository
 import eu.mcomputing.mobv.diplomovapraca.utils.FileUtils
 import kotlinx.coroutines.launch
 
-// 🔥 Stavové objekty rovnaké ako pri logine
 sealed class TrainingPersonalState {
     object Idle : TrainingPersonalState()
     object Uploading : TrainingPersonalState()
@@ -33,14 +32,11 @@ class TrainingPersonalViewModel(
     private val behaBioAuthRepository: BehaBioAuthRepository
 ) : AndroidViewModel(application) {
 
-    // Pre ľahší prístup ku kontextu pri I/O operáciách
     private val appContext: Context
         get() = getApplication<Application>().applicationContext
 
-    // Veta, ktorú si používateľ vybral
     val personalSentence = MutableLiveData<String>()
 
-    // stav UI (Idle, Loading, Success, Error)
     private val _state = MutableLiveData<TrainingPersonalState>(TrainingPersonalState.Idle)
     val state: LiveData<TrainingPersonalState> get() = _state
 
@@ -58,21 +54,18 @@ class TrainingPersonalViewModel(
         val uid = authRepository.getCurrentUser()?.uid ?: return
 
         viewModelScope.launch {
-            // Použijeme metódu z UserRepository na uloženie vety
             when (val result = userRepository.savePersonalSentence(uid, sentence)) {
                 is Result.Success -> {
-                    Log.i("DATABASE", "Osobná veta úspešne uložená k používateľovi.")
                     personalSentence.postValue(sentence)
                 }
                 is Result.Error -> {
-                    Log.e("DATABASE", "Chyba pri ukladaní vety", result.exception)
+                    Log.e("TrainingPersonalVM", "Chyba pri ukladaní vety", result.exception)
                     _state.postValue(TrainingPersonalState.Error(getApplication<Application>().getString(R.string.training_personal_error_sentence_save)))
                 }
             }
         }
     }
 
-    // 🧠 Funkcia volaná po dokončení X pokusov
     fun finishTraining() {
         if (_state.value is TrainingPersonalState.Uploading || _state.value is TrainingPersonalState.TrainingModels) {
             return
@@ -102,11 +95,10 @@ class TrainingPersonalViewModel(
                     when (val registerResult = behaBioAuthRepository.register(uid)) {
                         is Result.Success -> {
                             areModelsTrained = true
-                            Log.i("MODEL_TRAINING", "✅ Modely boli úspešne dotrénované pre UID=$uid")
                         }
 
                         is Result.Error -> {
-                            Log.e("MODEL_TRAINING", "Chyba počas trénovania modelov.", registerResult.exception)
+                            Log.e("TrainingPersonalVM", "Chyba počas trénovania modelov.", registerResult.exception)
                             _state.value = TrainingPersonalState.Error(
                                 getApplication<Application>().getString(R.string.training_personal_error_model_training_failed)
                             )
@@ -121,13 +113,12 @@ class TrainingPersonalViewModel(
                     value = true
                 )) {
                     is Result.Success -> {
-                        Log.i("FIREBASE_UPDATE", "✅ hasPersonalTraining úspešne aktualizovaný na TRUE.")
                         resetTrainingProgress()
                         _state.value = TrainingPersonalState.Success
                     }
 
                     is Result.Error -> {
-                        Log.e("FIREBASE_UPDATE", "Chyba pri aktualizácii statusu tréningu.", updateResult.exception)
+                        Log.e("TrainingPersonalVM", "Chyba pri aktualizácii statusu tréningu.", updateResult.exception)
                         _state.value = TrainingPersonalState.Error(
                             getApplication<Application>().getString(R.string.training_personal_error_state_save_failed)
                         )
@@ -135,7 +126,7 @@ class TrainingPersonalViewModel(
                 }
 
             } catch (e: Exception) {
-                Log.e("UPLOAD_ERROR", "Chyba pri dokončovaní osobného tréningu.", e)
+                Log.e("TrainingPersonalVM", "Chyba pri dokončovaní osobného tréningu.", e)
                 _state.value = TrainingPersonalState.Error(
                     e.message ?: getApplication<Application>().getString(R.string.training_personal_error_finish_failed)
                 )
@@ -166,7 +157,6 @@ class TrainingPersonalViewModel(
             ) {
                 is Result.Error -> throw result.exception
                 is Result.Success -> {
-                    Log.i("UPLOAD_PERSONAL", "Súbor $fileName úspešne nahraný.")
                     FileUtils.truncateLogFile(appContext, fileName)
                     uploadedPersonalTrainingFiles.add(fileName)
                 }
@@ -180,9 +170,8 @@ class TrainingPersonalViewModel(
         areModelsTrained = false
     }
 
-
     fun clear() {
-        personalSentence.value = "" // Nastavíme na null, nie na prázdny reťazec
+        personalSentence.value = ""
         _state.value = TrainingPersonalState.Idle
         resetTrainingProgress()
     }

@@ -7,10 +7,6 @@ import eu.mcomputing.mobv.diplomovapraca.data.Result
 
 class AuthRepository(private val auth: FirebaseAuth) {
 
-    /**
-     * Zaregistruje nového používateľa s emailom a heslom.
-     * Vráti Result.Success s FirebaseUser alebo Result.Error s výnimkou.
-     */
     suspend fun register(email: String, password: String): Result<FirebaseUser> {
         return try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
@@ -26,10 +22,6 @@ class AuthRepository(private val auth: FirebaseAuth) {
         }
     }
 
-    /**
-     * Prihlási existujúceho používateľa s emailom a heslom.
-     * Vráti Result.Success s FirebaseUser alebo Result.Error s výnimkou.
-     */
     suspend fun signIn(email: String, password: String): Result<FirebaseUser> {
         return try {
             val result = auth.signInWithEmailAndPassword(email, password).await()
@@ -49,9 +41,6 @@ class AuthRepository(private val auth: FirebaseAuth) {
         auth.signOut()
     }
 
-    /**
-     * Vráti aktuálne prihláseného používateľa (alebo null, ak nikto nie je prihlásený).
-     */
     fun getCurrentUser(): FirebaseUser? {
         return auth.currentUser
     }

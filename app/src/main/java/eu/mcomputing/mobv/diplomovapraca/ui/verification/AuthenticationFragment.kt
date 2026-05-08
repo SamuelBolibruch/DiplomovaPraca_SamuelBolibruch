@@ -108,7 +108,6 @@ class AuthenticationFragment : Fragment(R.layout.fragment_authentication) {
         generalSentenceText.text = viewModel.authSentence
         renderSubmitAvailability()
 
-        // Default výber = všeobecná veta
         radioGeneral.isChecked = true
         isPersonalMode = false
         selectedSentence = viewModel.authSentence

@@ -14,32 +14,20 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-// ----------------------------------------------------
-// 1. AUTH REPOZITÁR
-// ----------------------------------------------------
 val authRepository: AuthRepository by lazy {
     val firebaseAuth = Firebase.auth
     AuthRepository(firebaseAuth)
 }
 
-// ----------------------------------------------------
-// 2. USER REPOZITÁR
-// ----------------------------------------------------
 val userRepository: UserRepository by lazy {
     val firebaseFirestore = Firebase.firestore
     UserRepository(firebaseFirestore)
 }
 
-// ----------------------------------------------------
-// 3. FILE REPOZITÁR
-// ----------------------------------------------------
 val fileRepository: FileRepository by lazy {
     FileRepository(Firebase.storage, Firebase.firestore)
 }
 
-// ----------------------------------------------------
-// 4. RETROFIT
-// ----------------------------------------------------
 private val okHttpClient: OkHttpClient by lazy {
     OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
@@ -57,16 +45,10 @@ private val retrofit: Retrofit by lazy {
         .build()
 }
 
-// ----------------------------------------------------
-// 5. API SERVICE
-// ----------------------------------------------------
 private val behaBioAuthService: BehaBioAuthService by lazy {
     retrofit.create(BehaBioAuthService::class.java)
 }
 
-// ----------------------------------------------------
-// 6. BEHAVIORAL BIOMETRICS AUTH REPOZITÁR
-// ----------------------------------------------------
 val behaBioAuthRepository: BehaBioAuthRepository by lazy {
     BehaBioAuthRepository(behaBioAuthService)
 }

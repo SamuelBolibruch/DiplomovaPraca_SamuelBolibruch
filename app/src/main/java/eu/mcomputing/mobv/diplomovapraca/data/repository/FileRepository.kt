@@ -14,16 +14,12 @@ class FileRepository(private val storage: FirebaseStorage, private val db: Fireb
     private val METADATA_COLLECTION = "file_metadata"
     private val STORAGE_BASE_PATH = "csv_uploads"
 
-    /**
-     * Nahrá jeden lokálny súbor do Firebase Storage a uloží jeho metadáta do Firestore.
-     * Cesta v Storage obsahuje unikátne batchId, aby sa zabránilo prepisovaniu.
-     */
     suspend fun uploadFileAndSaveMetadata(
         localFile: File,
         uid: String,
         fileType: String,
         filePurpose: String,
-        batchId: String, // Unikátne ID pre celú dávku (napr. timestamp)
+        batchId: String,
         sentenceType: String? = null
     ): Result<Unit> {
 
@@ -32,8 +28,6 @@ class FileRepository(private val storage: FirebaseStorage, private val db: Fireb
         }
 
         return try {
-            // 1. Definovanie UNIKÁTNEJ cesty v Storage
-            // Path: csv_uploads/{UID}/{fileType}/{BATCH_ID}/{file_name.csv}
             val remotePath = if (fileType == "authentication" && !sentenceType.isNullOrBlank()) {
                 "$STORAGE_BASE_PATH/$uid/$fileType/$sentenceType/$batchId/${localFile.name}"
             } else {
@@ -41,10 +35,8 @@ class FileRepository(private val storage: FirebaseStorage, private val db: Fireb
             }
             val storageRef = storage.reference.child(remotePath)
 
-            // 2. Upload súboru
             storageRef.putFile(localFile.toUri()).await()
 
-            // 3. Vytvorenie metadát
             val metadata = FileMetadata(
                 userId = uid,
                 fileName = localFile.name,
@@ -54,7 +46,6 @@ class FileRepository(private val storage: FirebaseStorage, private val db: Fireb
                 sentenceType = if (fileType == "authentication") sentenceType else null
             )
 
-            // 4. Uloženie metadát do Firestore
             db.collection(METADATA_COLLECTION)
                 .add(metadata)
                 .await()

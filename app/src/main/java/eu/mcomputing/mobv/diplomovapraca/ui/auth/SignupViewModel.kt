@@ -66,8 +66,6 @@ class SignupViewModel(
         return true
     }
 
-    // Funkcia attemptFirstStep je odstránená. Teraz bude navigácia prebiehať priamo z Fragmentu.
-
     fun signup() {
         if (!validateInputs()) return
 
@@ -77,7 +75,6 @@ class SignupViewModel(
             val emailValue = email.value!!
             val passwordValue = password.value!!
 
-            // KROK 1: Autentifikácia
             when (val authResult = authRepository.register(emailValue, passwordValue)) {
 
                 is Result.Success -> {
@@ -91,11 +88,9 @@ class SignupViewModel(
                         dominantHand = hand.value
                     )
 
-                    // KROK 2: Uloženie profilu do Firestore
                     when (val userResult = userRepository.createUserProfile(initialUser)) {
 
                         is Result.Success -> {
-                            Log.i("FIREBASE_REGISTRATION", "✅ Registrácia dokončená. Profil uložený.")
                             _signupState.value = SignupState.Success
                         }
 
@@ -132,7 +127,6 @@ class SignupViewModel(
     }
 }
 
-// Musíme odstrániť aj stav FirstStepSuccess
 sealed class SignupState {
     object Idle : SignupState()
     object Loading : SignupState()

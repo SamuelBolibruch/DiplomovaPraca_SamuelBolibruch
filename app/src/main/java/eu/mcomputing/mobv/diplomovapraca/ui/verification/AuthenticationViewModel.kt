@@ -71,34 +71,23 @@ class AuthenticationViewModel(
         val input = typedText.value?.trim() ?: ""
         val trimmedTarget = targetSentence.trim()
 
-        Log.d(tag, "authenticateUser() called")
-        Log.d(tag, "Input text: '$input'")
-        Log.d(tag, "Target text: '$trimmedTarget'")
-        Log.d(tag, "fileType=$fileType, sentenceType=$sentenceType, keystrokeFile=$specificKeystrokeFileName")
-
         if (trimmedTarget.isBlank()) {
-            Log.e(tag, "Target sentence is blank")
             _state.value = AuthenticationState.Error(application.getString(R.string.auth_error_target_sentence_missing))
             return
         }
 
         if (input != trimmedTarget) {
-            Log.e(tag, "Input does not match target sentence")
             _state.value = AuthenticationState.Error(application.getString(R.string.auth_text_mismatch))
             return
         }
 
         val uid = authRepository.getCurrentUser()?.uid
         if (uid == null) {
-            Log.e(tag, "User is not logged in, uid is null")
             _state.value = AuthenticationState.Error(application.getString(R.string.auth_error_user_not_logged_in))
             return
         }
 
-        Log.d(tag, "Authenticated Firebase user uid=$uid")
-
         val batchId = System.currentTimeMillis().toString()
-        Log.d(tag, "Generated batchId=$batchId")
 
         val filesToUpload = listOf(
             Pair(FileUtils.ACCELEROMETER_FILE_NAME, "accelerometer"),
@@ -109,22 +98,12 @@ class AuthenticationViewModel(
         authenticationJob?.cancel()
         authenticationJob = viewModelScope.launch {
             _state.value = AuthenticationState.Loading
-            Log.d(tag, "State changed to Loading")
 
             try {
-                Log.d(tag, "Starting file upload sequence, files count=${filesToUpload.size}")
-
                 filesToUpload.forEach { (fileName, purpose) ->
                     val localFile = FileUtils.getLogFile(application.applicationContext, fileName)
 
-                    Log.d(
-                        tag,
-                        "Checking file: name=$fileName, purpose=$purpose, path=${localFile.absolutePath}, exists=${localFile.exists()}, size=${if (localFile.exists()) localFile.length() else -1}"
-                    )
-
                     if (localFile.exists() && localFile.length() > 0) {
-                        Log.d(tag, "Uploading file: $fileName")
-
                         when (
                             val result = fileRepository.uploadFileAndSaveMetadata(
                                 localFile = localFile,
@@ -136,9 +115,7 @@ class AuthenticationViewModel(
                             )
                         ) {
                             is Result.Success -> {
-                                Log.d(tag, "Upload success for file=$fileName, truncating local file")
                                 FileUtils.truncateLogFile(application.applicationContext, fileName)
-                                Log.d(tag, "File truncated: $fileName")
                             }
 
                             is Result.Error -> {
@@ -147,38 +124,21 @@ class AuthenticationViewModel(
                             }
                         }
                     } else {
-                        Log.e(tag, "File missing or empty: $fileName")
                         throw Exception("Súbor $fileName neexistuje alebo je prázdny.")
                     }
                 }
 
-                Log.d(tag, "All files uploaded successfully, calling authentication API")
-                Log.d(tag, "Calling authenticate(uid=$uid, authType=$sentenceType)")
-
                 when (val authApiResult = behaBioAuthRepository.authenticate(uid, sentenceType)) {
                     is Result.Success -> {
-                        Log.d(tag, "Authentication API success")
-                        Log.d(tag, "API raw status=${authApiResult.data.status}")
-                        Log.d(tag, "API result user_id=${authApiResult.data.result.user_id}")
-                        Log.d(tag, "API result auth_type=${authApiResult.data.result.auth_type}")
-                        Log.d(tag, "API result threshold=${authApiResult.data.result.threshold}")
-                        Log.d(tag, "API result probability_genuine=${authApiResult.data.result.probability_genuine}")
-                        Log.d(tag, "API result accepted=${authApiResult.data.result.accepted}")
-                        Log.d(tag, "API result decision=${authApiResult.data.result.decision}")
-
                         val decision = authApiResult.data.result.decision.trim().uppercase()
-                        Log.d(tag, "Normalized decision=$decision")
 
                         typedText.postValue("")
-                        Log.d(tag, "typedText cleared after API response")
 
                         if (decision == "ACCEPT") {
-                            Log.d(tag, "Authentication accepted, setting Success state")
                             _state.value = AuthenticationState.Success(
                                 application.getString(R.string.auth_result_message_success)
                             )
                         } else {
-                            Log.e(tag, "Authentication rejected by API")
                             _state.value = AuthenticationState.Error(
                                 application.getString(R.string.auth_result_message_rejected)
                             )
@@ -188,7 +148,6 @@ class AuthenticationViewModel(
                     is Result.Error -> {
                         Log.e(tag, "Authentication API call failed", authApiResult.exception)
                         typedText.postValue("")
-                        Log.d(tag, "typedText cleared after API error")
                         _state.value = AuthenticationState.Error(
                             application.getString(R.string.auth_result_message_server_error)
                         )
@@ -196,12 +155,10 @@ class AuthenticationViewModel(
                 }
 
             } catch (e: CancellationException) {
-                Log.i(tag, "authenticateUser() cancelled")
                 throw e
             } catch (e: Exception) {
                 Log.e(tag, "authenticateUser() failed", e)
                 typedText.postValue("")
-                Log.d(tag, "typedText cleared in catch block")
                 _state.value = AuthenticationState.Error(
                     e.message ?: application.getString(R.string.auth_error_upload_failed)
                 )

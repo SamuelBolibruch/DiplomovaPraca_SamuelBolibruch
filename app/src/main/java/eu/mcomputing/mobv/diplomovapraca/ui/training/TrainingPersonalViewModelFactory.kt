@@ -6,22 +6,20 @@ import androidx.lifecycle.ViewModelProvider
 import eu.mcomputing.mobv.diplomovapraca.data.repository.AuthRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.BehaBioAuthRepository
 import eu.mcomputing.mobv.diplomovapraca.data.repository.FileRepository
-import eu.mcomputing.mobv.diplomovapraca.data.repository.UserRepository // Import UserRepository
+import eu.mcomputing.mobv.diplomovapraca.data.repository.UserRepository
 import java.lang.IllegalArgumentException
 
 class TrainingPersonalViewModelFactory(
     private val application: Application,
     private val authRepository: AuthRepository,
     private val fileRepository: FileRepository,
-    private val userRepository: UserRepository, // Závislosť: UserRepository
+    private val userRepository: UserRepository,
     private val behaBioAuthRepository: BehaBioAuthRepository
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        // Kontrola, či trieda ViewModelu je TrainingPersonalViewModel
         if (modelClass.isAssignableFrom(TrainingPersonalViewModel::class.java)) {
-            // Vytvorenie inštancie s odovzdaním všetkých štyroch závislostí
             return TrainingPersonalViewModel(
                 application,
                 authRepository,

@@ -20,9 +20,9 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
 
     private val viewModel: TrainingCommonViewModel by activityViewModels {
         TrainingCommonViewModelFactory(
-            requireActivity().application, // Odosielame Application Context
-            authRepository,                // Odosielame Singleton AuthRepository
-            fileRepository,                 // Odosielame Singleton FileRepository
+            requireActivity().application,
+            authRepository,
+            fileRepository,
             userRepository
         )
     }
@@ -49,8 +49,8 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         val normalButtonText = getString(R.string.training_button_continue)
-        val keystrokeFileName = "keystrokes_common.csv" // Názov súboru pre tento tréning
-        val fileType = "common_training" // Typ tréningu pre metadáta
+        val keystrokeFileName = "keystrokes_common.csv"
+        val fileType = "common_training"
 
         fun renderProgressStatus() {
             statusText.text = getString(
@@ -72,14 +72,11 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
         inputField?.addTextChangedListener { s ->
             val typed = s?.toString() ?: ""
 
-            // ✅ prefix check (rovnaká dĺžka ako typed)
             val expectedPrefix = commonSentence.take(typed.length)
             val isPrefixOk = typed == expectedPrefix
 
-            // ✅ farba podľa chyby
             inputField?.setTextColor(if (isPrefixOk) defaultTextColor else errorTextColor)
 
-            // pôvodná logika: posun kola iba pri presnej zhode celej vety
             if (typed.trim() == commonSentence) {
 
                 val newCount = (viewModel.attemptCount.value ?: 0) + 1
@@ -112,7 +109,6 @@ class TrainingCommonFragment : Fragment(R.layout.fragment_training_common) {
             }
         }
         nextButton.setOnClickListener {
-            // ✅ OPRAVENÉ: Volanie funkcie s povinnými parametrami
             viewModel.sendTrainingData(
                 specificKeystrokeFileName = keystrokeFileName,
                 fileType = fileType

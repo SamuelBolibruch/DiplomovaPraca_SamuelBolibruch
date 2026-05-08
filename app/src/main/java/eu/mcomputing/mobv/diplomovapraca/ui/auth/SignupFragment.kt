@@ -55,14 +55,11 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
         }
 
         submitButton.setOnClickListener {
-            // ✅ AK SÚ DÁTA LOKÁLNE VALIDNÉ (email/heslo)...
             if (viewModel.validateFirstStepInputs()) {
-                // ...tak hneď prejdeme na ďalší fragment pre zber dodatočných dát.
                 findNavController().navigate(
                     R.id.action_signupFragment_to_additionalSignupInfoFragment
                 )
             }
-            // Ak validácia zlyhá, validateFirstStepInputs() nastaví SignupState.Error, ktorý sa zobrazí nižšie.
         }
 
         viewModel.signupState.observe(viewLifecycleOwner) { state ->
@@ -76,16 +73,11 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
                 }
 
                 is SignupState.Loading -> {
-                    // Pre tento fragment nepotrebujeme stav Loading, lebo sa nič nenačítava.
-                    // Ale ponecháme logiku Idle/Error
                     progressBar.isVisible = false
                     submitButton.isEnabled = true
                 }
 
-                // ⬇️ Tieto stavy sa v tomto fragmente nespracovávajú ⬇️
-                is SignupState.Success -> {
-                    // Ignorujeme, spracováva ich AdditionalSignupInfoFragment
-                }
+                is SignupState.Success -> {}
 
                 is SignupState.Error -> {
                     progressBar.isVisible = false
