@@ -6,7 +6,6 @@
 
 - **Android Studio** (Ladybug 2024.2.1 alebo novšia) – [stiahnuť tu](https://developer.android.com/studio)
 
-
 ---
 
 ### 1. Klonovanie repozitára
@@ -38,7 +37,7 @@ Bez tohto súboru **projekt neskompiluje**.
 
 **Možnosť B – vlastný Firebase projekt**
 
-> ⚠️ V tomto prípade budú môcť aplikáciu používať iba **novo zaregistrovaní používatelia**. Používatelia z pôvodného projektu sa nebudú vedieť prihlásiť.
+> ⚠️ V tomto prípade budú môcť aplikáciu používať iba **novo zaregistrovaní používatelia**. Používatelia z pôvodného projektu sa nebudú vedieť prihlásiť. Ich surové dáta však zostávajú dostupné na backende, a teda pri pretrénovaní modelov sa pracuje aj s nimi.
 
 1. V [Firebase Console](https://console.firebase.google.com) vytvor nový projekt.
 2. Aktivuj služby **Authentication**, **Firestore** a **Storage**.
@@ -47,12 +46,7 @@ Bez tohto súboru **projekt neskompiluje**.
 
 > **Nepridávaj tento súbor do gitu.**
 
-### 4. Spustenie
-
-1. Vyber zariadenie alebo emulátor (min. Android 9.0 – API 28).
-2. Klikni **Run ▶** (`Shift + F10`).
-
-### 5. Backend
+### 4. Nastavenie adresy backend servera
 
 Serverová časť tejto aplikácie sa nachádza na: https://github.com/SamuelBolibruch/DiplomovaPraca_Backend
 
@@ -65,3 +59,8 @@ Aplikácia komunikuje s autentifikačným serverom (napr. cez [ngrok](https://ng
 ```
 
 > Zmeň URL na aktuálnu adresu tvojho bežiaceho backendu. Toto je jediné miesto, ktoré treba upraviť – všetky HTTP volania v aplikácii idú cez tento Retrofit klient.
+
+### 5. Spustenie
+
+1. Vyber zariadenie alebo emulátor (min. Android 9.0 – API 28).
+2. Klikni **Run ▶** (`Shift + F10`).
