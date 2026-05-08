@@ -11,6 +11,9 @@
 /.idea/studiobot.xml
 /.idea/deploymentTargetSelector.xml
 /.idea/deviceManager.xml
+/.idea/AndroidProjectSystem.xml
+/.idea/markdown.xml
+/.idea/migrations.xml
 .DS_Store
 /build
 /captures
