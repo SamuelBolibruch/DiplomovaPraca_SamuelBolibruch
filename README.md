@@ -1,5 +1,7 @@
 ## Inštalácia a spustenie
 
+> Pred spustením mobilnej aplikácie sa uistite, že máte spustený a dostupný backend server (viď inštalačná príručka serverovej časti).
+
 ### Požiadavky
 
 - **Android Studio** (Ladybug 2024.2.1 alebo novšia) – [stiahnuť tu](https://developer.android.com/studio)
@@ -26,11 +28,22 @@ Bez tohto súboru **projekt neskompiluje**.
 
 > Mobilná aplikácia musí byť pripojená k **rovnakému Firebase projektu** ako serverová časť – inak autentifikácia nebude fungovať.
 
-> ⚠️ Pri použití vlastného Firebase projektu budú môcť aplikáciu používať iba **novo zaregistrovaní používatelia**. Používatelia z pôvodného projektu sa nebudú vedieť prihlásiť – ich účty v novom Firebase neexistujú, aj keď ich autentifikačné modely na BE ostávajú zachované.
+> Prístup k pôvodnému Firebase projektu je možné získať na požiadanie od autora práce.
 
-1. V [Firebase Console](https://console.firebase.google.com) otvor projekt → **Project settings → General**.
-2. Klikni na **Download google-services.json**.
-3. Súbor umiestni do priečinka `app/`.
+**Možnosť A – prístup k pôvodnému Firebase projektu**
+
+1. V [Firebase Console](https://console.firebase.google.com) otvor pôvodný projekt.
+2. Prejdi do **Project settings → General**.
+3. Stiahni `google-services.json` a umiestni ho do priečinka `app/`.
+
+**Možnosť B – vlastný Firebase projekt**
+
+> ⚠️ V tomto prípade budú môcť aplikáciu používať iba **novo zaregistrovaní používatelia**. Používatelia z pôvodného projektu sa nebudú vedieť prihlásiť.
+
+1. V [Firebase Console](https://console.firebase.google.com) vytvor nový projekt.
+2. Aktivuj služby **Authentication**, **Firestore** a **Storage**.
+3. Prejdi do **Project settings → General**.
+4. Stiahni `google-services.json` a umiestni ho do priečinka `app/`.
 
 > **Nepridávaj tento súbor do gitu.**
 
@@ -43,4 +56,12 @@ Bez tohto súboru **projekt neskompiluje**.
 
 Serverová časť tejto aplikácie sa nachádza na: https://github.com/SamuelBolibruch/DiplomovaPraca_Backend
 
-Aplikácia komunikuje s autentifikačným serverom. URL servera nastav v kóde – napr. ngrok URL vo formáte `https://xxxx.ngrok-free.app`.
+Aplikácia komunikuje s autentifikačným serverom (napr. cez [ngrok](https://ngrok.com)). Po spustení backendu a jeho sprístupnení cez ngrok (alebo iný tunel/server) je potrebné aktualizovať URL na jednom mieste v kóde:
+
+**`app/src/main/java/eu/mcomputing/mobv/diplomovapraca/AppContainer.kt`**
+
+```kotlin
+.baseUrl("https://xxxx.ngrok-free.app/")
+```
+
+> Zmeň URL na aktuálnu adresu tvojho bežiaceho backendu. Toto je jediné miesto, ktoré treba upraviť – všetky HTTP volania v aplikácii idú cez tento Retrofit klient.
