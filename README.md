@@ -1,3 +1,19 @@
+# DiplomovaPraca_SamuelBolibruch
+
+Mobilná aplikácia (Android, Kotlin) systému behaviorálnej biometrickej
+autentifikácie pre smartfónovú platformu. Projekt je súčasťou diplomovej
+práce na FEI STU v Bratislave (2026).
+
+Aplikácia zabezpečuje zber behaviorálnych údajov používateľa – dynamiky
+písania na dotykovom displeji a údajov z pohybových senzorov
+(akcelerometer, gyroskop) – ako druhý faktor overenia identity
+po štandardnej autentifikácii e-mailom a heslom.
+
+**Súvisiace repozitáre:**
+
+- [Serverová časť (Python, FastAPI)](https://github.com/SamuelBolibruch/DiplomovaPraca_Backend)
+
+
 ## Inštalácia a spustenie
 
 > Pred spustením mobilnej aplikácie sa uistite, že máte spustený a dostupný backend server (viď inštalačná príručka serverovej časti).
@@ -12,7 +28,7 @@
 
 ```bash
 git clone git@github.com:SamuelBolibruch/DiplomovaPraca_SamuelBolibruch.git
-cd DiplomovaPraca
+cd DiplomovaPraca_SamuelBolibruch
 ```
 
 ### 2. Otvorenie projektu v Android Studio
