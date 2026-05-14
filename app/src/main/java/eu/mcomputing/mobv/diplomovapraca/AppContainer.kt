@@ -39,7 +39,7 @@ private val okHttpClient: OkHttpClient by lazy {
 
 private val retrofit: Retrofit by lazy {
     Retrofit.Builder()
-        .baseUrl("https://murmurlessly-strawless-tina.ngrok-free.dev/")
+        .baseUrl("https://XXXX.ngrok-free.app/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
